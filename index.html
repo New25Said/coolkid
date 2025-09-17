@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Convertidor de Video Local</title>
+  <style>
+    body { font-family: sans-serif; background: #111; color: #eee; padding: 2em; }
+    input, button { margin: 1em 0; padding: 0.5em; font-size: 1em; }
+    #log { white-space: pre-wrap; background: #222; padding: 1em; border-radius: 5px; }
+  </style>
+</head>
+<body>
+  <h1>🎬 Convertidor de Video Local</h1>
+  <input type="file" id="videoInput" accept="video/*">
+  <button onclick="convert()">Convertir</button>
+  <div id="log">Estado: esperando archivo...</div>
+
+  <script type="module">
+    import { createFFmpeg, fetchFile } from 'https://cdn.jsdelivr.net/npm/@ffmpeg/ffmpeg@0.12.6/dist/ffmpeg.mjs';
+
+    const ffmpeg = createFFmpeg({ log: true });
+    const log = document.getElementById('log');
+
+    async function convert() {
+      const fileInput = document.getElementById('videoInput');
+      if (!fileInput.files.length) {
+        log.textContent = '✗ Error: No se seleccionó ningún archivo.';
+        return;
+      }
+
+      const file = fileInput.files[0];
+      const filename = file.name.split('.').slice(0, -1).join('.');
+      log.textContent = '🔄 Cargando FFmpeg...';
+
+      await ffmpeg.load();
+      ffmpeg.FS('writeFile', file.name, await fetchFile(file));
+
+      log.textContent = '⚙️ Procesando...';
+
+      await ffmpeg.run(
+        '-i', file.name,
+        '-f', 'avi',
+        '-vcodec', 'libx264',
+        '-vb', '1500000',
+        '-r', '14',
+        '-pix_fmt', 'yuv420p',
+        '-bufsize', '25000k',
+        '-maxrate', '25000k',
+        '-g', '7',
+        '-refs', '1',
+        '-qmin', '18',
+        '-qmax', '43',
+        '-profile:v', 'baseline',
+        '-vf', 'scale=iw*min(320/iw\\,240/ih):ih*min(320/iw\\,240/ih),pad=320:240:(320-iw*min(320/iw\\,240/ih))/2:(240-ih*min(320/iw\\,240/ih))/2:black,transpose=2',
+        '-acodec', 'pcm_s16le',
+        '-ab', '128k',
+        '-ar', '16000',
+        '-ac', '1',
+        `${filename}-p.avi`
+      );
+
+      const data = ffmpeg.FS('readFile', `${filename}-p.avi`);
+      const url = URL.createObjectURL(new Blob([data.buffer], { type: 'video/avi' }));
+
+      log.innerHTML = `✅ Conversión exitosa: <a href="${url}" download="${filename}-p.avi">Descargar video</a>`;
+    }
+  </script>
+</body>
+</html>
