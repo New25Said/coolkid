@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>🎮 Emulador NES Mejorado</title>
+<style>
+  /* ===== Estilos generales ===== */
+  body {
+    background: radial-gradient(circle at center, #111 0%, #000 100%);
+    color: #e0e0e0;
+    font-family: 'Segoe UI', sans-serif;
+    text-align: center;
+    margin: 0;
+    padding: 0;
+  }
+  h1 {
+    margin: 20px 0;
+    font-weight: 400;
+    font-size: 2rem;
+    color: #ff4444;
+    text-shadow: 0 0 10px #ff4444, 0 0 20px #ff0000;
+  }
+  #container {
+    max-width: 960px;
+    margin: auto;
+    padding: 20px;
+    background: rgba(25, 25, 25, 0.85);
+    border-radius: 18px;
+    box-shadow: 0 0 25px rgba(255, 0, 0, 0.4);
+  }
+
+  /* ===== Canvas ===== */
+  canvas {
+    border: 3px solid #ff4444;
+    margin-top: 15px;
+    image-rendering: pixelated;
+    background: #000;
+    border-radius: 12px;
+    box-shadow: 0 0 20px rgba(255, 68, 68, 0.4);
+    transition: transform 0.2s ease;
+  }
+  canvas:hover {
+    transform: scale(1.02);
+  }
+
+  /* ===== Controles ===== */
+  .controls {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    align-items: center;
+  }
+  .control-row {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  /* ===== Sliders ===== */
+  input[type=range] {
+    appearance: none;
+    height: 6px;
+    background: #333;
+    border-radius: 5px;
+    outline: none;
+    width: 200px;
+    box-shadow: inset 0 0 5px #000;
+  }
+  input[type=range]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: #ff4444;
+    cursor: pointer;
+    box-shadow: 0 0 10px #ff4444;
+  }
+
+  /* ===== Botones ===== */
+  button, .custom-upload {
+    background: linear-gradient(135deg, #ff4444, #cc0000);
+    border: none;
+    color: white;
+    padding: 8px 16px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: all 0.2s ease;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    box-shadow: 0 0 10px rgba(255,68,68,0.5);
+  }
+  button:hover, .custom-upload:hover {
+    background: linear-gradient(135deg, #ff6666, #e60000);
+    box-shadow: 0 0 15px rgba(255,68,68,0.8);
+    transform: translateY(-2px);
+  }
+
+  /* ===== Tablas de controles ===== */
+  table {
+    margin: 10px auto;
+    color: #fff;
+    border-collapse: collapse;
+  }
+  td {
+    padding: 6px 10px;
+  }
+  #controlsConfig {
+    background: rgba(0,0,0,0.9);
+    padding: 15px;
+    border: 1px solid #ff4444;
+    display: none;
+    border-radius: 12px;
+    box-shadow: 0 0 20px rgba(255,68,68,0.5);
+  }
+  #controlsConfig h3, #filtersMenu h3 {
+    color: #ff6666;
+    text-shadow: 0 0 8px #ff0000;
+  }
+
+  /* ===== Filtros ===== */
+  #filtersMenu {
+    display: none;
+    background: rgba(0,0,0,0.9);
+    padding: 15px;
+    border: 1px solid #ff4444;
+    border-radius: 12px;
+    width: fit-content;
+    margin: 15px auto;
+    box-shadow: 0 0 20px rgba(255,68,68,0.5);
+  }
+
+  /* ===== Otros ===== */
+  .hidden { display: none !important; }
+  #romLoader { display: none; }
+  p {
+    font-size: 14px;
+    color: #aaa;
+  }
+</style>
+</head>
+<body>
+
+<h1>🎮 Emulador NES Mejorado</h1>
+<div id="container">
+  <label for="romLoader" class="custom-upload">📂 Cargar ROM</label>
+  <input type="file" id="romLoader" accept=".nes">
+  <br>
+  <canvas id="nes-canvas" width="256" height="240"></canvas>
+
+  <div class="controls" id="controlPanel">
+    <div class="control-row">
+      <label>Zoom: <input type="range" id="zoomSlider" min="1" max="4" step="0.1" value="1"></label>
+    </div>
+    <div class="control-row">
+      <label>Velocidad: <input type="range" id="speedSlider" min="10" max="300" step="1" value="60">
+      <span id="speedValue">60</span> FPS</label>
+    </div>
+    <div class="control-row"><button id="resetSpeedBtn">Reset velocidad</button></div>
+    <div class="control-row"><button id="fullscreenBtn">Pantalla completa</button></div>
+    <div class="control-row"><button id="configControlsBtn">Configurar controles</button></div>
+    <div class="control-row"><button id="filtersBtn">Filtros de pantalla</button></div>
+  </div>
+
+  <div id="controlsConfig">
+    <h3>Configura tus controles</h3>
+
+    <h4>Jugador 1</h4>
+    <table data-player="p1">
+      <tr><td>A:</td><td><button data-btn="A">Asignar</button></td></tr>
+      <tr><td>B:</td><td><button data-btn="B">Asignar</button></td></tr>
+      <tr><td>Start:</td><td><button data-btn="START">Asignar</button></td></tr>
+      <tr><td>Select:</td><td><button data-btn="SELECT">Asignar</button></td></tr>
+      <tr><td>Arriba:</td><td><button data-btn="UP">Asignar</button></td></tr>
+      <tr><td>Abajo:</td><td><button data-btn="DOWN">Asignar</button></td></tr>
+      <tr><td>Izquierda:</td><td><button data-btn="LEFT">Asignar</button></td></tr>
+      <tr><td>Derecha:</td><td><button data-btn="RIGHT">Asignar</button></td></tr>
+    </table>
+
+    <h4>Jugador 2</h4>
+    <table data-player="p2">
+      <tr><td>A:</td><td><button data-btn="A">Asignar</button></td></tr>
+      <tr><td>B:</td><td><button data-btn="B">Asignar</button></td></tr>
+      <tr><td>Start:</td><td><button data-btn="START">Asignar</button></td></tr>
+      <tr><td>Select:</td><td><button data-btn="SELECT">Asignar</button></td></tr>
+      <tr><td>Arriba:</td><td><button data-btn="UP">Asignar</button></td></tr>
+      <tr><td>Abajo:</td><td><button data-btn="DOWN">Asignar</button></td></tr>
+      <tr><td>Izquierda:</td><td><button data-btn="LEFT">Asignar</button></td></tr>
+      <tr><td>Derecha:</td><td><button data-btn="RIGHT">Asignar</button></td></tr>
+    </table>
+
+    <button id="closeConfigBtn">Cerrar</button>
+  </div>
+
+  <div id="filtersMenu">
+    <h3>Selecciona un filtro</h3>
+    <button data-filter="none">Normal</button>
+    <button data-filter="pixel">Pixel Perfect</button>
+    <button data-filter="smooth">Suavizado</button>
+    <button data-filter="bw">Blanco y negro</button>
+    <button data-filter="sepia">Sepia</button>
+    <button data-filter="green">Verde retro</button>
+    <button data-filter="scanlines">Scanlines</button>
+    <br><br>
+    <button id="closeFiltersBtn">Cerrar</button>
+  </div>
+
+  <p>
+    Controles por defecto: Z = B, X = A, Enter = Start, Shift = Select, Flechas = Dirección
+  </p>
+</div>
+
+<!-- Scripts originales -->
+<script src="jsnes.min.js"></script>
+<script>
+/* ===== Parche NES stop() ===== */
+if (jsnes && jsnes.NES && !jsnes.NES.prototype.stop) {
+  jsnes.NES.prototype.stop = function() {
+    console.warn("Emulación detenida por instrucción inválida");
+  };
+}
+
+const canvas = document.getElementById('nes-canvas');
+const ctx = canvas.getContext('2d', { willReadFrequently: true });
+
+const nes = new jsnes.NES({
+  onFrame(frameBuffer) {
+    const imageData = ctx.getImageData(0, 0, 256, 240);
+    for (let i = 0; i < frameBuffer.length; i++) {
+      imageData.data[i * 4 + 0] = (frameBuffer[i] >> 16) & 0xFF;
+      imageData.data[i * 4 + 1] = (frameBuffer[i] >> 8) & 0xFF;
+      imageData.data[i * 4 + 2] = frameBuffer[i] & 0xFF;
+      imageData.data[i * 4 + 3] = 0xFF;
+    }
+    ctx.putImageData(imageData, 0, 0);
+  },
+  emulateSound: true
+});
+
+/* ===== Paleta NTSC ===== */
+const ntscPalette = [
+  0x7C7C7C,0x0000FC,0x0000BC,0x4428BC,0x940084,0xA80020,0xA81000,0x881400,
+  0x503000,0x007800,0x006800,0x005800,0x004058,0x000000,0x000000,0x000000,
+  0xBCBCBC,0x0078F8,0x0058F8,0x6844FC,0xD800CC,0xE40058,0xF83800,0xE45C10,
+  0xAC7C00,0x00B800,0x00A800,0x00A844,0x008888,0x000000,0x000000,0x000000,
+  0xF8F8F8,0x3CBCFC,0x6888FC,0x9878F8,0xF878F8,0xF85898,0xF87858,0xFCA044,
+  0xF8B800,0xB8F818,0x58D854,0x58F898,0x00E8D8,0x787878,0x000000,0x000000,
+  0xFCFCFC,0xA4E4FC,0xB8B8F8,0xD8B8F8,0xF8B8F8,0xF8A4C0,0xF0D0B0,0xFCE0A8,
+  0xF8D878,0xD8F878,0xB8F8B8,0xB8F8D8,0x00FCFC,0xF8D8F8,0x000000,0x000000
+];
+function aplicarPaletaNTSC() {
+  if (nes.ppu && nes.ppu.palTable) {
+    nes.ppu.palTable.colors = ntscPalette;
+    if (nes.ppu.palTable.loadDefaultPalette) {
+      nes.ppu.palTable.loadDefaultPalette();
+    }
+  }
+}
+
+/* ===== Controles ===== */
+const Controller = jsnes.Controller;
+
+// Cargar desde localStorage o usar por defecto
+let controlConfig = JSON.parse(localStorage.getItem("nes_controls")) || {
+  p1: { A:88, B:90, START:13, SELECT:16, UP:38, DOWN:40, LEFT:37, RIGHT:39 },
+  p2: { A:97, B:98, START:100, SELECT:99, UP:104, DOWN:101, LEFT:1000, RIGHT:1001 } // teclas raras para diferenciar
+};
+
+const nesButtons = {
+  A: Controller.BUTTON_A, B: Controller.BUTTON_B,
+  START: Controller.BUTTON_START, SELECT: Controller.BUTTON_SELECT,
+  UP: Controller.BUTTON_UP, DOWN: Controller.BUTTON_DOWN,
+  LEFT: Controller.BUTTON_LEFT, RIGHT: Controller.BUTTON_RIGHT
+};
+
+// Estado de mandos conectados
+let gamepads = {};
+window.addEventListener("gamepadconnected", e => {
+  gamepads[e.gamepad.index] = e.gamepad;
+});
+window.addEventListener("gamepaddisconnected", e => {
+  delete gamepads[e.gamepad.index];
+});
+
+/* ===== Asignación de teclas/mando ===== */
+function assignControl(player, btn, label) {
+  label.textContent = "Presiona tecla o botón...";
+  const keyHandler = e => {
+    e.preventDefault();
+    controlConfig[player][btn] = e.keyCode;
+    label.textContent = `Asignado (${e.key})`;
+    saveControls();
+    removeListeners();
+  };
+  const padHandler = e => {
+    const pads = navigator.getGamepads();
+    for (let i in pads) {
+      const gp = pads[i];
+      if (gp) {
+        gp.buttons.forEach((b, idx) => {
+          if (b.pressed) {
+            controlConfig[player][btn] = `gp:${gp.index}:${idx}`;
+            label.textContent = `Asignado (Mando ${gp.index} Btn ${idx})`;
+            saveControls();
+            removeListeners();
+          }
+        });
+      }
+    }
+  };
+  function removeListeners() {
+    window.removeEventListener('keydown', keyHandler);
+    clearInterval(interval);
+  }
+  window.addEventListener('keydown', keyHandler);
+  const interval = setInterval(padHandler, 100);
+}
+
+function saveControls() {
+  localStorage.setItem("nes_controls", JSON.stringify(controlConfig));
+}
+
+/* ===== Eventos de juego (teclado) ===== */
+document.addEventListener('keydown', e => {
+  for (let p of ['p1','p2']) {
+    for (let btn in controlConfig[p]) {
+      if (controlConfig[p][btn] === e.keyCode) {
+        nes.buttonDown(p === 'p1' ? 1 : 2, nesButtons[btn]);
+      }
+    }
+  }
+});
+document.addEventListener('keyup', e => {
+  for (let p of ['p1','p2']) {
+    for (let btn in controlConfig[p]) {
+      if (controlConfig[p][btn] === e.keyCode) {
+        nes.buttonUp(p === 'p1' ? 1 : 2, nesButtons[btn]);
+      }
+    }
+  }
+});
+
+/* ===== Eventos de juego (mando) ===== */
+function handleGamepads() {
+  const pads = navigator.getGamepads();
+  for (let p of ['p1','p2']) {
+    for (let btn in controlConfig[p]) {
+      const val = controlConfig[p][btn];
+      if (typeof val === 'string' && val.startsWith("gp:")) {
+        const parts = val.split(":");
+        const padIndex = parseInt(parts[1]);
+        const btnIndex = parseInt(parts[2]);
+        const gp = pads[padIndex];
+        if (gp && gp.buttons[btnIndex]) {
+          if (gp.buttons[btnIndex].pressed) {
+            nes.buttonDown(p === 'p1' ? 1 : 2, nesButtons[btn]);
+          } else {
+            nes.buttonUp(p === 'p1' ? 1 : 2, nesButtons[btn]);
+          }
+        }
+      }
+    }
+  }
+  requestAnimationFrame(handleGamepads);
+}
+handleGamepads();
+
+/* ===== Configuración UI ===== */
+document.getElementById('configControlsBtn').onclick = () => {
+  document.getElementById('controlsConfig').style.display = 'block';
+};
+document.getElementById('closeConfigBtn').onclick = () => {
+  document.getElementById('controlsConfig').style.display = 'none';
+};
+document.querySelectorAll('#controlsConfig table').forEach(table => {
+  const player = table.dataset.player;
+  table.querySelectorAll('button[data-btn]').forEach(btnEl => {
+    const btn = btnEl.dataset.btn;
+    btnEl.addEventListener('click', () => assignControl(player, btn, btnEl));
+  });
+});
+
+/* ===== Velocidad ===== */
+let fpsTarget = 60;
+document.getElementById('speedSlider').addEventListener('input', e => {
+  fpsTarget = parseInt(e.target.value);
+  document.getElementById('speedValue').textContent = fpsTarget;
+});
+document.getElementById('resetSpeedBtn').onclick = () => {
+  fpsTarget = 60;
+  document.getElementById('speedSlider').value = 60;
+  document.getElementById('speedValue').textContent = 60;
+};
+
+/* ===== Carga ROM ===== */
+let running = false;
+function startROM(data) {
+  aplicarPaletaNTSC();
+  nes.loadROM(data);
+  aplicarPaletaNTSC();
+  running = true;
+  requestAnimationFrame(loop);
+}
+document.getElementById('romLoader').addEventListener('change', e => {
+  const file = e.target.files[0];
+  if (file && file.name.endsWith('.nes')) {
+    const reader = new FileReader();
+    reader.onload = () => startROM(reader.result);
+    reader.readAsBinaryString(file);
+  }
+});
+document.addEventListener("dragover", e => {
+  e.preventDefault();
+  e.dataTransfer.dropEffect = "copy";
+});
+document.addEventListener("drop", e => {
+  e.preventDefault();
+  if (e.dataTransfer.files.length > 0) {
+    const file = e.dataTransfer.files[0];
+    if (file.name.endsWith(".nes")) {
+      const reader = new FileReader();
+      reader.onload = () => startROM(reader.result);
+      reader.readAsBinaryString(file);
+    }
+  }
+});
+
+/* ===== Loop ===== */
+let lastTime = 0;
+function loop(timestamp) {
+  if (!lastTime) lastTime = timestamp;
+  const delta = timestamp - lastTime;
+  if (delta >= 1000 / fpsTarget) {
+    nes.frame();
+    drawHUD();
+    lastTime = timestamp;
+  }
+  if (running) requestAnimationFrame(loop);
+}
+
+/* ===== HUD Guardar/Cargar ===== */
+let hudMessage = "";
+let hudTimer = 0;
+function showHUD(msg) {
+  hudMessage = msg;
+  hudTimer = Date.now() + 2000;
+}
+function drawHUD() {
+  if (hudMessage && Date.now() < hudTimer) {
+    ctx.font = "12px monospace";
+    ctx.fillStyle = "white";
+    ctx.strokeStyle = "black";
+    ctx.lineWidth = 3;
+    ctx.textAlign = "center";
+    ctx.strokeText(hudMessage, canvas.width / 2, canvas.height - 10);
+    ctx.fillText(hudMessage, canvas.width / 2, canvas.height - 10);
+  }
+}
+document.addEventListener('keydown', e => {
+  if (e.code === "KeyO") {
+    const state = nes.toJSON();
+    localStorage.setItem("nes_save_autoslot", JSON.stringify(state));
+    showHUD("💾 Partida guardada");
+  }
+  if (e.code === "KeyP") {
+    const saved = localStorage.getItem("nes_save_autoslot");
+    if (saved) {
+      nes.fromJSON(JSON.parse(saved));
+      aplicarPaletaNTSC();
+      showHUD("📂 Partida cargada");
+    } else {
+      showHUD("⚠ No hay partida");
+    }
+  }
+});
+
+/* ===== Zoom ===== */
+document.getElementById('zoomSlider').addEventListener('input', () => {
+  const scale = parseFloat(document.getElementById('zoomSlider').value);
+  canvas.style.width = (256 * scale) + 'px';
+  canvas.style.height = (240 * scale) + 'px';
+});
+
+/* ===== Pantalla completa ===== */
+const controlPanel = document.getElementById('controlPanel');
+document.getElementById('fullscreenBtn').onclick = () => {
+  if (canvas.requestFullscreen) canvas.requestFullscreen();
+};
+document.addEventListener('fullscreenchange', () => {
+  if (document.fullscreenElement) controlPanel.classList.add('hidden');
+  else controlPanel.classList.remove('hidden');
+});
+
+/* ===== Filtros ===== */
+document.getElementById('filtersBtn').onclick = () => {
+  document.getElementById('filtersMenu').style.display = 'block';
+};
+document.getElementById('closeFiltersBtn').onclick = () => {
+  document.getElementById('filtersMenu').style.display = 'none';
+};
+document.querySelectorAll('#filtersMenu button[data-filter]').forEach(btn => {
+  btn.addEventListener('click', () => {
+    let type = btn.getAttribute('data-filter');
+    canvas.style.removeProperty("filter");
+    canvas.style.removeProperty("image-rendering");
+    canvas.style.backgroundImage = "none";
+    canvas.style.backgroundSize = "auto";
+    switch(type) {
+      case "pixel": canvas.style.imageRendering = "pixelated"; break;
+      case "smooth": canvas.style.imageRendering = "auto"; break;
+      case "bw": canvas.style.filter = "grayscale(100%)"; break;
+      case "sepia": canvas.style.filter = "sepia(100%)"; break;
+      case "green": canvas.style.filter = "sepia(100%) hue-rotate(90deg) saturate(200%)"; break;
+      case "scanlines":
+        canvas.style.filter = "contrast(1.2) brightness(1)";
+        canvas.style.backgroundImage = "linear-gradient(rgba(0,0,0,0.25) 50%, transparent 50%)";
+        canvas.style.backgroundSize = "100% 2px";
+        break;
+      default: canvas.style.filter = "none";
+    }
+  });
+});
+</script>
+</body>
+</html>
