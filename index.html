@@ -11,10 +11,10 @@
 /* -------------------------------------- */
 :root {
     /* Colores del Modo Oscuro */
-    --bg-color: #121212; /* Fondo principal oscuro */
-    --card-bg: #1e1e1e; /* Fondo de tarjeta oscuro */
-    --text-color: #e0e0e0; /* Color de texto claro */
-    --secondary-text-color: #a0a0a0; /* Color de texto secundario */
+    --bg-color: #121212; 
+    --card-bg: #1e1e1e; 
+    --text-color: #e0e0e0; 
+    --secondary-text-color: #a0a0a0; 
     --shadow-color: rgba(0, 0, 0, 0.5);
     --card-hover-bg: #2a2a2a;
     
@@ -32,7 +32,7 @@ body {
     background-color: var(--bg-color);
     color: var(--text-color);
     scroll-behavior: smooth;
-    transition: background-color 0.5s, color 0.5s; /* Transición suave */
+    transition: background-color 0.5s, color 0.5s; 
 }
 
 
@@ -63,7 +63,7 @@ body {
 .navbar a[href="#herramientas"]:hover { color: var(--accent-orange); text-shadow: 0 0 10px var(--accent-orange); }
 .navbar a[href="#juegos"]:hover { color: var(--accent-green); text-shadow: 0 0 10px var(--accent-green); }
 .navbar a[href="#utilidades"]:hover { color: var(--accent-purple); text-shadow: 0 0 10px var(--accent-purple); }
-.navbar a[href="#hub-inicio"]:hover { color: #00bcd4; text-shadow: 0 0 10px #00bcd4; } /* Inicio/Home */
+.navbar a[href="#hub-inicio"]:hover { color: #00bcd4; text-shadow: 0 0 10px #00bcd4; } 
 
 
 /* --- Contenido Principal --- */
@@ -72,17 +72,14 @@ body {
     border-bottom: 1px solid #333; 
 }
 
-/* Ajuste de padding y centrado para la primera sección */
 #hub-inicio {
     padding-top: 100px;
     text-align: center;
     border-bottom: none;
 }
 
-
-/* Estilo para la imagen de inicio */
 .inicio-image {
-    max-width: 80%;
+    max-width: 100%;
     height: auto;
     max-height: 250px; 
     border-radius: 10px;
@@ -110,9 +107,11 @@ body {
 /* --- Estilos de las Tarjetas/Galería --- */
 .gallery-container {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    /* AJUSTE CLAVE: Aumentamos el tamaño mínimo de la columna a 350px para hacer las tarjetas más anchas */
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
     gap: 20px; 
-    max-width: 1200px;
+    /* AJUSTE CLAVE: Aumentamos el ancho máximo del contenedor de 1200px a 1400px */
+    max-width: 1400px;
     margin: 0 auto;
     padding: 20px 0;
 }
@@ -134,7 +133,6 @@ body {
     border-left: 5px solid transparent; 
     position: relative; 
     min-height: 120px; 
-    /* AJUSTE: Usamos flexbox para alinear el logo y el texto */
     display: flex;
     flex-direction: column;
     align-items: flex-start;
@@ -142,26 +140,25 @@ body {
 
 /* --- Estilos para el LOGO dentro de la tarjeta --- */
 .card-logo-container {
-    width: 50px; /* Tamaño del logo */
+    width: 50px; 
     height: 50px;
-    margin-bottom: 15px; /* Espacio debajo del logo */
-    background-color: rgba(255, 255, 255, 0.05); /* Fondo sutil para el logo */
-    border-radius: 10px; /* Bordes ligeramente redondeados */
+    margin-bottom: 15px; 
+    background-color: rgba(255, 255, 255, 0.05); 
+    border-radius: 10px; 
     display: flex;
     justify-content: center;
     align-items: center;
     padding: 5px;
-    overflow: hidden; /* Asegura que la imagen no se salga */
+    overflow: hidden; 
 }
 
 .card-logo-container img {
     width: 100%;
     height: 100%;
-    object-fit: contain; /* Asegura que la imagen se ajuste sin recortarse */
-    border-radius: 5px; /* Bordes ligeramente redondeados para la imagen */
+    object-fit: contain; 
+    border-radius: 5px; 
 }
 
-/* Iconos internos eliminados (asegurando que no reaparezcan) */
 .card-icon-container { display: none; }
 
 
@@ -238,7 +235,6 @@ body {
         color: var(--accent-purple) !important;
     }
 
-    /* Ajuste para el fondo del logo en modo claro */
     .card-logo-container {
         background-color: rgba(0, 0, 0, 0.05); 
     }
@@ -269,7 +265,8 @@ body {
 <div class="card card-orange">
 <i class="fas fa-wrench category-icon icon-orange"></i>
 <div class="card-logo-container">
-<img src="https://via.placeholder.com/50/FF9800/FFFFFF?text=DB" alt="Logo Base de Datos"> </div>
+<img src="https://via.placeholder.com/50/FF9800/FFFFFF?text=DB" alt="Logo Base de Datos"> 
+</div>
 <h3>Gestor de Bases de Datos</h3>
 <p>Herramienta para acceder y modificar la información estructurada del sistema.</p>
 </div>
@@ -279,7 +276,8 @@ body {
 <div class="card card-orange">
 <i class="fas fa-wrench category-icon icon-orange"></i>
 <div class="card-logo-container">
-<img src="https://via.placeholder.com/50/FF9800/FFFFFF?text=Analytics" alt="Logo Analítica"> </div>
+<img src="https://via.placeholder.com/50/FF9800/FFFFFF?text=Analytics" alt="Logo Analítica"> 
+</div>
 <h3>Análisis y Reportes</h3>
 <p>Visualiza gráficos e informes de uso en tiempo real para optimización.</p>
 </div>
@@ -289,7 +287,8 @@ body {
 <div class="card card-orange">
 <i class="fas fa-wrench category-icon icon-orange"></i>
 <div class="card-logo-container">
-<img src="https://via.placeholder.com/50/FF9800/FFFFFF?text=HW" alt="Logo Hardware"> </div>
+<img src="https://via.placeholder.com/50/FF9800/FFFFFF?text=HW" alt="Logo Hardware"> 
+</div>
 <h3>Ajustes de Sistema</h3>
 <p>Utilidad para la configuración de bajo nivel del sistema operativo.</p>
 </div>
@@ -307,7 +306,8 @@ body {
 <div class="card card-green">
 <i class="fas fa-gamepad category-icon icon-green"></i>
 <div class="card-logo-container">
-<img src="https://via.placeholder.com/50/4CAF50/FFFFFF?text=MC" alt="Logo Minecraft"> </div>
+<img src="https://via.placeholder.com/50/4CAF50/FFFFFF?text=MC" alt="Logo Minecraft"> 
+</div>
 <h3>Maincra</h3>
 <p>Minecraft es un videojuego de tipo sandbox para construir y sobrevivir en un mundo virtual de bloques.</p>
 </div>
@@ -317,7 +317,8 @@ body {
 <div class="card card-green">
 <i class="fas fa-gamepad category-icon icon-green"></i>
 <div class="card-logo-container">
-<img src="https://via.placeholder.com/50/4CAF50/FFFFFF?text=EG" alt="Logo EaglercraftX"> </div>
+<img src="https://via.placeholder.com/50/4CAF50/FFFFFF?text=EG" alt="Logo EaglercraftX"> 
+</div>
 <h3>EaglercraftX</h3>
 <p>Versión en línea del famoso juego para jugar directamente en el navegador.</p>
 </div>
@@ -335,7 +336,8 @@ body {
 <div class="card card-purple">
 <i class="fas fa-pen-ruler category-icon icon-purple"></i>
 <div class="card-logo-container">
-<img src="https://via.placeholder.com/50/9c27b0/FFFFFF?text=Support" alt="Logo Soporte"> </div>
+<img src="https://via.placeholder.com/50/9c27b0/FFFFFF?text=Support" alt="Logo Soporte"> 
+</div>
 <h3>Soporte Técnico</h3>
 <p>Utilidad para crear tickets o revisar el estado de incidencias y ayuda.</p>
 </div>
@@ -345,7 +347,8 @@ body {
 <div class="card card-purple">
 <i class="fas fa-pen-ruler category-icon icon-purple"></i>
 <div class="card-logo-container">
-<img src="https://via.placeholder.com/50/9c27b0/FFFFFF?text=API" alt="Logo API"> </div>
+<img src="https://via.placeholder.com/50/9c27b0/FFFFFF?text=API" alt="Logo API"> 
+</div>
 <h3>Referencia API</h3>
 <p>Documentación completa del API REST y manuales de desarrollo.</p>
 </div>
@@ -355,7 +358,8 @@ body {
 <div class="card card-purple">
 <i class="fas fa-pen-ruler category-icon icon-purple"></i>
 <div class="card-logo-container">
-<img src="https://via.placeholder.com/50/9c27b0/FFFFFF?text=Profile" alt="Logo Perfil"> </div>
+<img src="https://via.placeholder.com/50/9c27b0/FFFFFF?text=Profile" alt="Logo Perfil"> 
+</div>
 <h3>Mi Perfil</h3>
 <p>Utilidad para gestionar tu cuenta, permisos y credenciales de acceso.</p>
 </div>
