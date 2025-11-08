@@ -41,7 +41,6 @@ body {
     position: sticky;
     top: 0;
     width: 100%;
-    /* Fondo semi-transparente que usa un color base */
     background-color: rgba(30, 30, 30, 0.95); 
     padding: 15px 0;
     box-shadow: 0 4px 8px var(--shadow-color);
@@ -69,26 +68,25 @@ body {
 
 /* --- Contenido Principal --- */
 .content-section {
-    padding: 100px 5% 50px;
-    min-height: 80vh;
-    border-bottom: 1px solid #333; /* Fijo para que no se vea raro en modo claro */
+    padding: 60px 5% 30px; 
+    border-bottom: 1px solid #333; 
 }
 
 /* Ajuste de padding y centrado para la primera sección */
 #hub-inicio {
-    padding-top: 150px;
+    padding-top: 100px;
     text-align: center;
-    border-bottom: none; /* Quitamos borde de la sección de inicio */
+    border-bottom: none;
 }
 
 
 /* Estilo para la imagen de inicio */
 .inicio-image {
-    max-width: 100%;
+    max-width: 80%;
     height: auto;
     max-height: 250px; 
     border-radius: 10px;
-    margin-bottom: 30px;
+    margin-bottom: 20px; 
     box-shadow: 0 5px 15px var(--shadow-color);
     object-fit: cover; 
 }
@@ -97,13 +95,13 @@ body {
     font-weight: 300;
     font-size: 2.5em;
     letter-spacing: 2px;
-    margin-bottom: 40px;
-    border-bottom: 2px solid; /* Solo el grosor, el color se define abajo */
+    margin-bottom: 30px; 
+    border-bottom: 2px solid; 
     display: inline-block;
     padding-bottom: 5px;
 }
 
-/* **CORRECCIÓN CLAVE:** Asignación de color a los títulos H2 */
+/* Asignación de color a los títulos H2 */
 #herramientas h2 { border-bottom-color: var(--accent-orange); }
 #juegos h2 { border-bottom-color: var(--accent-green); }
 #utilidades h2 { border-bottom-color: var(--accent-purple); }
@@ -113,7 +111,7 @@ body {
 .gallery-container {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 25px;
+    gap: 20px; 
     max-width: 1200px;
     margin: 0 auto;
     padding: 20px 0;
@@ -133,13 +131,46 @@ body {
     box-shadow: 0 8px 16px var(--shadow-color);
     transition: transform 0.3s, box-shadow 0.3s, background-color 0.3s;
     text-align: left;
-    border-left: 5px solid transparent; /* Borde izquierdo para color de sección */
+    border-left: 5px solid transparent; 
     position: relative; 
     min-height: 120px; 
+    /* AJUSTE: Usamos flexbox para alinear el logo y el texto */
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
 }
 
-/* Iconos internos eliminados */
+/* --- Estilos para el LOGO dentro de la tarjeta --- */
+.card-logo-container {
+    width: 50px; /* Tamaño del logo */
+    height: 50px;
+    margin-bottom: 15px; /* Espacio debajo del logo */
+    background-color: rgba(255, 255, 255, 0.05); /* Fondo sutil para el logo */
+    border-radius: 10px; /* Bordes ligeramente redondeados */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 5px;
+    overflow: hidden; /* Asegura que la imagen no se salga */
+}
+
+.card-logo-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain; /* Asegura que la imagen se ajuste sin recortarse */
+    border-radius: 5px; /* Bordes ligeramente redondeados para la imagen */
+}
+
+/* Iconos internos eliminados (asegurando que no reaparezcan) */
 .card-icon-container { display: none; }
+
+
+.card h3 {
+    font-size: 1.4em;
+    margin-top: 0;
+    margin-bottom: 10px;
+    font-weight: 600;
+}
 
 
 .card p {
@@ -171,7 +202,6 @@ body {
     top: 15px;
     right: 15px;
     font-size: 1.5em;
-    /* Se asegura que el color de acento sea el color del icono */
     z-index: 10; 
 }
 
@@ -187,29 +217,31 @@ body {
 @media (prefers-color-scheme: light) {
     :root {
         /* Colores del Modo Claro */
-        --bg-color: #f0f0f0; /* Fondo principal claro */
-        --card-bg: #ffffff; /* Fondo de tarjeta blanco */
-        --text-color: #333333; /* Color de texto oscuro */
-        --secondary-text-color: #666666; /* Color de texto secundario oscuro */
-        --shadow-color: rgba(0, 0, 0, 0.15); /* Sombra más sutil */
+        --bg-color: #f0f0f0; 
+        --card-bg: #ffffff; 
+        --text-color: #333333; 
+        --secondary-text-color: #666666; 
+        --shadow-color: rgba(0, 0, 0, 0.15); 
         --card-hover-bg: #f8f8f8;
     }
 
     .navbar {
-        /* Fondo de la barra de navegación más claro en modo claro */
         background-color: rgba(255, 255, 255, 0.95); 
         box-shadow: 0 4px 8px var(--shadow-color);
     }
     
     .content-section {
-        border-bottom: 1px solid #ddd; /* Borde más claro en modo claro */
+        border-bottom: 1px solid #ddd; 
     }
 
-    /* Ajustamos el color del texto del inicio que no usa variable por defecto */
     #hub-inicio p[style*="994ace"] {
         color: var(--accent-purple) !important;
     }
 
+    /* Ajuste para el fondo del logo en modo claro */
+    .card-logo-container {
+        background-color: rgba(0, 0, 0, 0.05); 
+    }
 }
 </style>
 </head>
@@ -224,7 +256,7 @@ body {
 <section id="hub-inicio" class="content-section">
 <img src="https://i.pinimg.com/736x/ad/ed/3b/aded3b0b3e6112ada3d56e35490255d9.jpg" alt="Logo de New Cheto's Club" class="inicio-image">
 <h1>New Cheto's Club</h1>
-<p style="font-size: 1.2em; color: var(--secondary-text-color);">Una colección de herramientas y juegos hecho por Said y con apoyo de Wils</p>
+<p style="font-size: 1.2em; color: var(--secondary-text-color);">Una colección de herramientas y juegos hecho por Said.</p>
 <p style="font-size: 1.2em; color: var(--accent-purple);">Selecciona una sección o usa el menú de arriba para navegar.</p>
 </section>
 
@@ -236,6 +268,8 @@ body {
 <a href="base_datos.html" class="card-link">
 <div class="card card-orange">
 <i class="fas fa-wrench category-icon icon-orange"></i>
+<div class="card-logo-container">
+<img src="https://via.placeholder.com/50/FF9800/FFFFFF?text=DB" alt="Logo Base de Datos"> </div>
 <h3>Gestor de Bases de Datos</h3>
 <p>Herramienta para acceder y modificar la información estructurada del sistema.</p>
 </div>
@@ -244,6 +278,8 @@ body {
 <a href="analitica.html" class="card-link">
 <div class="card card-orange">
 <i class="fas fa-wrench category-icon icon-orange"></i>
+<div class="card-logo-container">
+<img src="https://via.placeholder.com/50/FF9800/FFFFFF?text=Analytics" alt="Logo Analítica"> </div>
 <h3>Análisis y Reportes</h3>
 <p>Visualiza gráficos e informes de uso en tiempo real para optimización.</p>
 </div>
@@ -252,6 +288,8 @@ body {
 <a href="hardware.html" class="card-link">
 <div class="card card-orange">
 <i class="fas fa-wrench category-icon icon-orange"></i>
+<div class="card-logo-container">
+<img src="https://via.placeholder.com/50/FF9800/FFFFFF?text=HW" alt="Logo Hardware"> </div>
 <h3>Ajustes de Sistema</h3>
 <p>Utilidad para la configuración de bajo nivel del sistema operativo.</p>
 </div>
@@ -268,6 +306,8 @@ body {
 <a href="herramientas.html" class="card-link">
 <div class="card card-green">
 <i class="fas fa-gamepad category-icon icon-green"></i>
+<div class="card-logo-container">
+<img src="https://via.placeholder.com/50/4CAF50/FFFFFF?text=MC" alt="Logo Minecraft"> </div>
 <h3>Maincra</h3>
 <p>Minecraft es un videojuego de tipo sandbox para construir y sobrevivir en un mundo virtual de bloques.</p>
 </div>
@@ -276,6 +316,8 @@ body {
 <a href="juego_secundario.html" class="card-link">
 <div class="card card-green">
 <i class="fas fa-gamepad category-icon icon-green"></i>
+<div class="card-logo-container">
+<img src="https://via.placeholder.com/50/4CAF50/FFFFFF?text=EG" alt="Logo EaglercraftX"> </div>
 <h3>EaglercraftX</h3>
 <p>Versión en línea del famoso juego para jugar directamente en el navegador.</p>
 </div>
@@ -292,6 +334,8 @@ body {
 <a href="EaglercraftX_1.8_WASM-GC_Offline_Download.html" class="card-link">
 <div class="card card-purple">
 <i class="fas fa-pen-ruler category-icon icon-purple"></i>
+<div class="card-logo-container">
+<img src="https://via.placeholder.com/50/9c27b0/FFFFFF?text=Support" alt="Logo Soporte"> </div>
 <h3>Soporte Técnico</h3>
 <p>Utilidad para crear tickets o revisar el estado de incidencias y ayuda.</p>
 </div>
@@ -300,6 +344,8 @@ body {
 <a href="documentacion_api.html" class="card-link">
 <div class="card card-purple">
 <i class="fas fa-pen-ruler category-icon icon-purple"></i>
+<div class="card-logo-container">
+<img src="https://via.placeholder.com/50/9c27b0/FFFFFF?text=API" alt="Logo API"> </div>
 <h3>Referencia API</h3>
 <p>Documentación completa del API REST y manuales de desarrollo.</p>
 </div>
@@ -308,13 +354,15 @@ body {
 <a href="perfil.html" class="card-link">
 <div class="card card-purple">
 <i class="fas fa-pen-ruler category-icon icon-purple"></i>
+<div class="card-logo-container">
+<img src="https://via.placeholder.com/50/9c27b0/FFFFFF?text=Profile" alt="Logo Perfil"> </div>
 <h3>Mi Perfil</h3>
 <p>Utilidad para gestionar tu cuenta, permisos y credenciales de acceso.</p>
 </div>
 </a>
 
 </div>
-<div style="height: 200px;"></div> 
+<div style="height: 50px;"></div> 
 </section>
 
 
