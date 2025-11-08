@@ -31,7 +31,7 @@ body {
     margin: 0;
     background-color: var(--bg-color);
     color: var(--text-color);
-    scroll-behavior: smooth;
+    scroll-behavior: smooth; 
     transition: background-color 0.5s, color 0.5s; 
 }
 
@@ -70,18 +70,25 @@ body {
 .content-section {
     padding: 60px 5% 30px; 
     border-bottom: 1px solid #333; 
+    /* AJUSTE: padding-top más grande para compensar el menú fijo */
+    padding-top: 100px; 
 }
 
+/* Ajuste de padding y centrado para la primera sección (INICIO) */
 #hub-inicio {
-    padding-top: 100px;
+    /* AJUSTE CLAVE: Se eliminó el padding-top (100px) y se añadió un padding normal */
+    padding: 30px 5% 60px;
     text-align: center;
     border-bottom: none;
 }
 
+
+/* Estilo para la imagen de inicio */
 .inicio-image {
     max-width: 100%;
     height: auto;
-    max-height: 250px; 
+    /* AJUSTE CLAVE: Imagen más pequeña */
+    max-height: 180px; 
     border-radius: 10px;
     margin-bottom: 20px; 
     box-shadow: 0 5px 15px var(--shadow-color);
@@ -107,10 +114,8 @@ body {
 /* --- Estilos de las Tarjetas/Galería --- */
 .gallery-container {
     display: grid;
-    /* AJUSTE CLAVE: Aumentamos el tamaño mínimo de la columna a 350px para hacer las tarjetas más anchas */
     grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
     gap: 20px; 
-    /* AJUSTE CLAVE: Aumentamos el ancho máximo del contenedor de 1200px a 1400px */
     max-width: 1400px;
     margin: 0 auto;
     padding: 20px 0;
