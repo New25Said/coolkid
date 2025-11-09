@@ -1,198 +1,198 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NES Classics ROMS</title>
-    <style>
-        /* -------------------------------------- */
-        /* 1. Variables de Color (Light Mode por defecto) */
-        /* -------------------------------------- */
-        :root {
-            --bg-color: #f0f0f5; /* Fondo claro */
-            --container-bg: #ffffff; /* Fondo del contenedor */
-            --text-color: #2c3e50; /* Texto principal (Gris oscuro) */
-            --accent-color: #e74c3c; /* Color de énfasis (Rojo suave/Retro) */
-            --link-color: #3498db; /* Color de enlaces (Azul) */
-            --border-color: #ecf0f1; /* Color de borde y separador */
-            --shadow-color: rgba(0, 0, 0, 0.05);
-        }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NES Classics ROMS</title>
+    <style>
+        /* -------------------------------------- */
+        /* 1. Variables de Color (Light Mode por defecto) */
+        /* -------------------------------------- */
+        :root {
+            --bg-color: #f0f0f5; /* Fondo claro */
+            --container-bg: #ffffff; /* Fondo del contenedor */
+            --text-color: #2c3e50; /* Texto principal (Gris oscuro) */
+            --accent-color: #e74c3c; /* Color de énfasis (Rojo suave/Retro) */
+            --link-color: #3498db; /* Color de enlaces (Azul) */
+            --border-color: #ecf0f1; /* Color de borde y separador */
+            --shadow-color: rgba(0, 0, 0, 0.05);
+        }
 
-        /* -------------------------------------- */
-        /* 2. Media Query para Dark Mode */
-        /* -------------------------------------- */
-        @media (prefers-color-scheme: dark) {
-            :root {
-                --bg-color: #1a1a2e; /* Fondo oscuro (Estilo noche) */
-                --container-bg: #2c2c44; /* Contenedor más oscuro */
-                --text-color: #ecf0f1; /* Texto blanco/claro */
-                --accent-color: #ff6b6b; /* Rojo más brillante */
-                --link-color: #9b59b6; /* Enlaces con un color púrpura/violeta */
-                --border-color: #3e4460;
-                --shadow-color: rgba(0, 0, 0, 0.4);
-            }
-        }
+        /* -------------------------------------- */
+        /* 2. Media Query para Dark Mode */
+        /* -------------------------------------- */
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --bg-color: #1a1a2e; /* Fondo oscuro (Estilo noche) */
+                --container-bg: #2c2c44; /* Contenedor más oscuro */
+                --text-color: #ecf0f1; /* Texto blanco/claro */
+                --accent-color: #ff6b6b; /* Rojo más brillante */
+                --link-color: #9b59b6; /* Enlaces con un color púrpura/violeta */
+                --border-color: #3e4460;
+                --shadow-color: rgba(0, 0, 0, 0.4);
+            }
+        }
 
-        /* -------------------------------------- */
-        /* 3. Estilos Globales y de Elementos */
-        /* -------------------------------------- */
-        body {
-            font-family: 'Arial', sans-serif;
-            margin: 0;
-            padding: 20px;
-            background-color: var(--bg-color);
-            color: var(--text-color);
-            transition: background-color 0.3s, color 0.3s; /* Transición suave al cambiar de modo */
-        }
-        .container {
-            max-width: 700px;
-            margin: 50px auto;
-            background: var(--container-bg);
-            padding: 30px;
-            border-radius: 8px;
-            box-shadow: 0 4px 15px var(--shadow-color);
-        }
-        h1 {
-            color: var(--accent-color);
-            text-align: center;
-            border-bottom: 2px solid var(--border-color);
-            padding-bottom: 15px;
-            margin-bottom: 20px;
-            font-size: 1.6em;
-        }
+        /* -------------------------------------- */
+        /* 3. Estilos Globales y de Elementos */
+        /* -------------------------------------- */
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            transition: background-color 0.3s, color 0.3s;
+        }
+        .container {
+            max-width: 700px;
+            margin: 50px auto;
+            background: var(--container-bg);
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px var(--shadow-color);
+        }
+        h1 {
+            color: var(--accent-color);
+            text-align: center;
+            border-bottom: 2px solid var(--border-color);
+            padding-bottom: 15px;
+            margin-bottom: 20px;
+            font-size: 1.6em;
+        }
 
-        /* Lista de Archivos (Minimalista) */
-        #file-list {
-            list-style: none;
-            padding: 0;
-        }
-        #file-list li {
-            border-bottom: 1px solid var(--border-color);
-        }
-        #file-list li:last-child {
-            border-bottom: none;
-        }
-        #file-list a {
-            text-decoration: none;
-            color: var(--link-color);
-            display: flex;
-            align-items: center;
-            padding: 10px 0;
-            transition: all 0.2s;
-        }
-        #file-list a:hover {
-            color: var(--accent-color);
-            background-color: var(--border-color);
-            padding-left: 10px; /* Desplazamiento sutil al hacer hover */
-        }
+        /* Lista de Archivos (Minimalista) */
+        #file-list {
+            list-style: none;
+            padding: 0;
+        }
+        #file-list li {
+            border-bottom: 1px solid var(--border-color);
+        }
+        #file-list li:last-child {
+            border-bottom: none;
+        }
+        #file-list a {
+            text-decoration: none;
+            color: var(--link-color);
+            display: flex;
+            align-items: center;
+            padding: 10px 0;
+            transition: all 0.2s;
+        }
+        #file-list a:hover {
+            color: var(--accent-color);
+            background-color: var(--border-color);
+            padding-left: 10px; /* Desplazamiento sutil al hacer hover */
+        }
 
-        /* Íconos y Mensajes */
-        .file-icon {
-            margin-right: 12px;
-            font-size: 1.1em;
-            color: var(--accent-color); /* Dar color de énfasis a los íconos */
-        }
-        .loading {
-            text-align: center;
-            font-size: 1em;
-            color: var(--link-color);
-            padding: 20px;
-        }
-        p {
-            text-align: center;
-            color: var(--text-color);
-            opacity: 0.7;
-            margin-top: 30px;
-            font-size: 0.9em;
-        }
-    </style>
+        /* Íconos y Mensajes */
+        .file-icon {
+            margin-right: 12px;
+            font-size: 1.1em;
+            color: var(--accent-color); /* Dar color de énfasis a los íconos */
+        }
+        .loading {
+            text-align: center;
+            font-size: 1em;
+            color: var(--link-color);
+            padding: 20px;
+        }
+        p {
+            text-align: center;
+            color: var(--text-color);
+            opacity: 0.7;
+            margin-top: 30px;
+            font-size: 0.9em;
+        }
+    </style>
 </head>
 <body>
 
-    <div class="container">
-        <h1>🕹️ ROMs de Nintendo Entertainment System (NES) para Descargar :D 🕹️</h1>
-        
-        <ul id="file-list">
-            <li class="loading">Cargando archivos...</li>
-        </ul>
-        
-        <p>Solo se mostrarán archivos.</p>
-    </div>
+    <div class="container">
+        <h1>🕹️ ROMs de Nintendo Entertainment System (NES) para Descargar :D 🕹️</h1>
+        
+        <ul id="file-list">
+            <li class="loading">Cargando archivos...</li>
+        </ul>
+        
+        <p>Solo se mostrarán archivos.</p>
+    </div>
 
-    <script>
-        // *****************************************************************
-        // *** CONFIGURACIÓN ADAPTADA PARA New25Said/coolkid/main          ***
-        // *****************************************************************
-        const GITHUB_USERNAME = "New25Said"; 
-        const REPO_NAME = "coolkid"; 
-        const REPO_BRANCH = "main"; // Confirma que 'main' es tu rama de publicación de Pages.
-        const PATH_TO_BROWSE = "nesemulator/roms/"; // Ruta dentro del repo donde está este archivo.
-        // *****************************************************************
+    <script>
+        // *****************************************************************
+        // *** CONFIGURACIÓN ADAPTADA PARA New25Said/coolkid/main          ***
+        // *****************************************************************
+        const GITHUB_USERNAME = "New25Said"; 
+        const REPO_NAME = "coolkid"; 
+        const REPO_BRANCH = "main"; // Confirma que 'main' es tu rama de publicación de Pages.
+        const PATH_TO_BROWSE = "nesemulator/roms/"; // Ruta dentro del repo donde está este archivo.
+        // *****************************************************************
 
-        const API_URL = `https://api.github.com/repos/${GITHUB_USERNAME}/${REPO_NAME}/contents/${PATH_TO_BROWSE}`;
-        const RAW_URL_BASE = `https://raw.githubusercontent.com/${GITHUB_USERNAME}/${REPO_NAME}/${REPO_BRANCH}/${PATH_TO_BROWSE}`;
+        const API_URL = `https://api.github.com/repos/${GITHUB_USERNAME}/${REPO_NAME}/contents/${PATH_TO_BROWSE}`;
+        const RAW_URL_BASE = `https://raw.githubusercontent.com/${GITHUB_USERNAME}/${REPO_NAME}/${REPO_BRANCH}/${PATH_TO_BROWSE}`;
 
-        document.addEventListener('DOMContentLoaded', () => {
-            fetchFileList();
-        });
+        document.addEventListener('DOMContentLoaded', () => {
+            fetchFileList();
+        });
 
-        function fetchFileList() {
-            const listElement = document.getElementById('file-list');
-            listElement.innerHTML = '<li class="loading">Cargando...</li>';
-            
-            fetch(API_URL)
-                .then(response => {
-                    if (!response.ok) {
-                        throw new Error(`Error ${response.status}: Asegúrese de que la ruta y la rama sean correctas.`);
-                    }
-                    return response.json();
-                })
-                .then(data => {
-                    listElement.innerHTML = ''; // Limpiar el mensaje de carga
-                    
-                    data.forEach(item => {
-                        // Solo procesar archivos
-                        if (item.type === 'file' && item.name !== 'browser.html') {
-                            const listItem = document.createElement('li');
-                            
-                            // El atributo 'download' fuerza al navegador a descargar
-                            const link = document.createElement('a');
-                            link.href = RAW_URL_BASE + item.name; // Usar la URL RAW para la descarga directa
-                            link.download = item.name; // Sugiere el nombre de archivo para la descarga
-                            
-                            // Añadir un ícono simple
-                            const icon = getFileIcon(item.name);
-                            link.innerHTML = `<span class="file-icon">${icon}</span>${item.name}`;
-                            
-                            listItem.appendChild(link);
-                            listElement.appendChild(listItem);
-                        }
-                    });
-                    
-                    if (listElement.children.length === 0) {
-                        listElement.innerHTML = '<li class="loading">No se encontraron archivos descargables en esta carpeta.</li>';
-                    }
-                })
-                .catch(error => {
-                    console.error('Error al obtener la lista de archivos:', error);
-                    listElement.innerHTML = `<li style="color: var(--accent-color); padding: 20px;">🚨 ¡Error al cargar archivos! ${error.message}</li>`;
-                });
-        }
-        
-        // Función simple para iconos
-        function getFileIcon(fileName) {
-            const extension = fileName.split('.').pop().toLowerCase();
-            switch (extension) {
-                case 'nes': return '🎮'; // Icono para ROMs de NES
-                case 'zip':
-                case 'rar': return '📦';
-                case 'pdf': return '📄';
-                case 'jpg':
-                case 'png':
-                case 'gif': return '🖼️';
-                default: return '📎';
-            }
-        }
-    </script>
+        function fetchFileList() {
+            const listElement = document.getElementById('file-list');
+            listElement.innerHTML = '<li class="loading">Cargando...</li>';
+            
+            fetch(API_URL)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error(`Error ${response.status}: Asegúrese de que la ruta y la rama sean correctas.`);
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    listElement.innerHTML = ''; // Limpiar el mensaje de carga
+                    
+                    data.forEach(item => {
+                        // Solo procesar archivos
+                        if (item.type === 'file' && item.name !== 'browser.html') {
+                            const listItem = document.createElement('li');
+                            
+                            // El atributo 'download' fuerza al navegador a descargar
+                            const link = document.createElement('a');
+                            link.href = RAW_URL_BASE + item.name; // Usar la URL RAW para la descarga directa
+                            link.download = item.name; // Sugiere el nombre de archivo para la descarga
+                            
+                            // Añadir un ícono simple
+                            const icon = getFileIcon(item.name);
+                            link.innerHTML = `<span class="file-icon">${icon}</span>${item.name}`;
+                            
+                            listItem.appendChild(link);
+                            listElement.appendChild(listItem);
+                        }
+                    });
+                    
+                    if (listElement.children.length === 0) {
+                        listElement.innerHTML = '<li class="loading">No se encontraron archivos descargables en esta carpeta.</li>';
+                    }
+                })
+                .catch(error => {
+                    console.error('Error al obtener la lista de archivos:', error);
+                    listElement.innerHTML = `<li style="color: var(--accent-color); padding: 20px;">🚨 ¡Error al cargar archivos! ${error.message}</li>`;
+                });
+        }
+        
+        // Función simple para iconos
+        function getFileIcon(fileName) {
+            const extension = fileName.split('.').pop().toLowerCase();
+            switch (extension) {
+                case 'nes': return '🎮'; // Icono para ROMs de NES
+                case 'zip':
+                case 'rar': return '📦';
+                case 'pdf': return '📄';
+                case 'jpg':
+                case 'png':
+                case 'gif': return '🖼️';
+                default: return '📎';
+            }
+        }
+    </script>
 </body>
 </html>
