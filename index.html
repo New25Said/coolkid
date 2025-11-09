@@ -117,22 +117,21 @@ body {
 
 /* --- Estilos de las Tarjetas/Galería --- */
 .gallery-container {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-    gap: 20px; 
-    max-width: 1400px;
-    margin: 0 auto;
-    padding: 20px 0;
-    /* AJUSTE CLAVE 1: Alinea los elementos al inicio de la celda de la rejilla */
-    align-items: start; 
+    /* Eliminamos 'display: grid' y usamos el diseño de columnas para Masonry */
+    column-count: 3; /* Intenta mostrar 3 columnas */
+    column-gap: 20px; /* Espacio entre columnas */
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 20px 0;
 }
 
 
-.card-link {
-    text-decoration: none;
-    color: var(--text-color);
-    /* AJUSTE CLAVE 2: Hace que el enlace ocupe el 100% de la altura de la celda */
-    height: 100%;
+/* --- MEDIA QUERY PARA RESPONSIVE (al final del CSS) --- */
+@media (max-width: 768px) {
+    .gallery-container {
+        /* En pantallas pequeñas, solo queremos 1 columna */
+        column-count: 1;
+    }
 }
 
 
