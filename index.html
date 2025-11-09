@@ -1,418 +1,172 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <link rel="shortcut icon" href="https://pbs.twimg.com/media/GGJxDOzXIAABa6_.jpg">
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ChetoHub</title>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-
-<style>
-/* -------------------------------------- */
-/* --- VARIABLES Y ESTILOS MODO OSCURO (DEFAULT) --- */
-/* -------------------------------------- */
-:root {
-    /* Colores del Modo Oscuro */
-    --bg-color: #121212; 
-    --card-bg: #1e1e1e; 
-    --text-color: #e0e0e0; 
-    --secondary-text-color: #a0a0a0; 
-    --shadow-color: rgba(0, 0, 0, 0.5);
-    --card-hover-bg: #2a2a2a;
-    
-    /* Colores de Categoría (Fijos en ambos modos para consistencia) */
-    --accent-orange: #ff9800; /* Herramientas */
-    --accent-green: #4CAF50; /* Juegos */
-    --accent-purple: #9c27b0; /* Utilidades */
-}
-
-
-/* Estilos generales (aplican a ambos modos, basados en las variables) */
-body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    margin: 0;
-    background-color: var(--bg-color);
-    color: var(--text-color);
-    scroll-behavior: smooth; 
-    transition: background-color 0.5s, color 0.5s; 
-}
-
-
-/* --- Menú de Navegación Fijo --- */
-.navbar {
-    position: sticky;
-    top: 0;
-    width: 100%;
-    background-color: rgba(30, 30, 30, 0.95); 
-    padding: 15px 0;
-    box-shadow: 0 4px 8px var(--shadow-color);
-    z-index: 1000;
-    display: flex;
-    justify-content: center;
-    gap: 40px;
-}
-
-.navbar a {
-    color: var(--text-color);
-    text-decoration: none;
-    font-weight: 500;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    transition: color 0.3s, text-shadow 0.3s;
-}
-
-/* Colores de hover para el menú */
-.navbar a[href="#herramientas"]:hover { color: var(--accent-orange); text-shadow: 0 0 10px var(--accent-orange); }
-.navbar a[href="#juegos"]:hover { color: var(--accent-green); text-shadow: 0 0 10px var(--accent-green); }
-.navbar a[href="#utilidades"]:hover { color: var(--accent-purple); text-shadow: 0 0 10px var(--accent-purple); }
-.navbar a[href="#hub-inicio"]:hover { color: #00bcd4; text-shadow: 0 0 10px #00bcd4; } 
-
-
-/* --- Contenido Principal --- */
-.content-section {
-    padding: 60px 5% 30px; 
-    border-bottom: 1px solid #333; 
-    padding-top: 100px; 
-}
-
-/* Ajuste de padding y centrado para la primera sección (INICIO) */
-#hub-inicio {
-    /* AJUSTE CLAVE: 80px arriba (baja el contenido), 5px abajo (elimina el espacio extra). */
-    padding: 80px 5% 5px; 
-    text-align: center;
-    border-bottom: none;
-    /* Necesario para posicionar las imágenes laterales: */
-    display: flex; 
-    flex-direction: column;
-    align-items: center;
-    position: relative; 
-}
-
-
-/* Estilo para la imagen de inicio */
-.inicio-image {
-    max-width: 100%;
-    height: auto;
-    max-height: 180px; 
-    border-radius: 10px;
-    margin-bottom: 20px; 
-    box-shadow: 0 5px 15px var(--shadow-color);
-    object-fit: cover; 
-}
-
-.content-section h2 {
-    font-weight: 300;
-    font-size: 2.5em;
-    letter-spacing: 2px;
-    margin-bottom: 30px; 
-    border-bottom: 2px solid; 
-    display: inline-block;
-    padding-bottom: 5px;
-}
-
-/* Asignación de color a los títulos H2 */
-#herramientas h2 { border-bottom-color: var(--accent-orange); }
-#juegos h2 { border-bottom-color: var(--accent-green); }
-#utilidades h2 { border-bottom-color: var(--accent-purple); }
-
-
-/* --- Estilos de las Tarjetas/Galería --- */
-.gallery-container {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-    gap: 20px; 
-    max-width: 1400px;
-    margin: 0 auto;
-    padding: 20px 0;
-    /* CORRECCIÓN PARA EL ESPACIO: Alinea el contenido de la rejilla al inicio */
-    align-items: start; 
-}
-
-
-.card-link {
-    text-decoration: none;
-    color: var(--text-color);
-    /* CORRECCIÓN PARA EL ESPACIO: Asegura que el enlace ocupe toda la altura de la celda */
-    height: 100%;
-}
-
-
-.card {
-    background-color: var(--card-bg);
-    padding: 25px;
-    border-radius: 15px;
-    box-shadow: 0 8px 16px var(--shadow-color);
-    transition: transform 0.3s, box-shadow 0.3s, background-color 0.3s;
-    text-align: left;
-    border-left: 5px solid transparent; 
-    position: relative; 
-    min-height: 120px; 
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-}
-
-/* --- Estilos para el LOGO dentro de la tarjeta --- */
-.card-logo-container {
-    max-width: 150px; /* Asegura que no sea más ancho de lo necesario */
-    height: 50px;
-    margin-bottom: 13px; 
-    border-radius: 10px; 
-    display: flex;
-    justify-content: flex-start; /* AJUSTE: alinear el logo a la izquierda dentro de su contenedor */
-    align-items: center;
-    overflow: hidden; 
-}
-
-.card-logo-container img {
-    width: auto; /* Permite que la imagen use su ancho natural o se adapte */
-    max-width: 100%; /* Asegura que no se salga del contenedor de 150px */
-    height: 100%; /* Mantiene la altura fija de 50px */
-    object-fit: contain; 
-    border-radius: 0; /* AJUSTE: eliminé el border-radius de la imagen, ya que el contenedor ya lo maneja */
-}
-
-
-.card-icon-container { display: none; }
-
-
-.card h3 {
-    font-size: 1.4em;
-    margin-top: 0;
-    margin-bottom: 10px;
-    font-weight: 600;
-}
-
-
-.card p {
-    font-size: 0.9em;
-    color: var(--secondary-text-color);
-    margin: 0;
-}
-
-/* Clases de color para las tarjetas */
-.card-orange { border-left-color: var(--accent-orange); }
-.card-green { border-left-color: var(--accent-green); }
-.card-purple { border-left-color: var(--accent-purple); }
-
-
-.card:hover {
-    transform: translateY(-8px);
-    background-color: var(--card-hover-bg);
-}
-
-/* Efectos hover específicos por color (usando variables de acento) */
-.card-orange:hover { box-shadow: 0 12px 25px var(--shadow-color), 0 0 20px var(--accent-orange); }
-.card-green:hover { box-shadow: 0 12px 25px var(--shadow-color), 0 0 20px var(--accent-green); }
-.card-purple:hover { box-shadow: 0 12px 25px var(--shadow-color), 0 0 20px var(--accent-purple); }
-
-
-/* --- Icono Flotante de Categoría --- */
-.category-icon {
-    position: absolute;
-    top: 15px;
-    right: 15px;
-    font-size: 1.5em;
-    z-index: 10; 
-}
-
-/* Iconos de categoría usan los colores de acento */
-.icon-orange { color: var(--accent-orange); }
-.icon-green { color: var(--accent-green); }
-.icon-purple { color: var(--accent-purple); }
-
-
-/* -------------------------------------- */
-/* --- MEDIA QUERY PARA EL MODO CLARO --- */
-/* -------------------------------------- */
-@media (prefers-color-scheme: light) {
-    :root {
-        /* Colores del Modo Claro */
-        --bg-color: #f0f0f0; 
-        --card-bg: #ffffff; 
-        --text-color: #333333; 
-        --secondary-text-color: #666666; 
-        --shadow-color: rgba(0, 0, 0, 0.15); 
-        --card-hover-bg: #f8f8f8;
-    }
-
-    .navbar {
-        background-color: rgba(255, 255, 255, 0.95); 
-        box-shadow: 0 4px 8px var(--shadow-color);
-    }
-    
-    .content-section {
-        border-bottom: 1px solid #ddd; 
-    }
-
-    #hub-inicio p[style*="994ace"] {
-        color: var(--accent-purple) !important;
-    }
-}
-</style>
+    <link rel="shortcut icon" href="https://pbs.twimg.com/media/GGJxDOzXIAABa6_.jpg">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ChetoHub</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
-<body>
-<nav class="navbar">
-<a href="#hub-inicio">Home</a>
-<a href="#herramientas">Herramientas</a>
-<a href="#juegos">Juegos</a>
-<a href="#utilidades">Utilidades</a>
+<body style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0; background-color: #121212; color: #e0e0e0; scroll-behavior: smooth;">
+
+<nav style="position: sticky; top: 0; width: 100%; background-color: rgba(30, 30, 30, 0.95); padding: 15px 0; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5); z-index: 1000; display: flex; justify-content: center; gap: 40px;">
+    <a href="#hub-inicio" style="color: #e0e0e0; text-decoration: none; font-weight: 500; text-transform: uppercase; letter-spacing: 1px; transition: color 0.3s;">Home</a>
+    <a href="#herramientas" style="color: #e0e0e0; text-decoration: none; font-weight: 500; text-transform: uppercase; letter-spacing: 1px; transition: color 0.3s;">Herramientas</a>
+    <a href="#juegos" style="color: #e0e0e0; text-decoration: none; font-weight: 500; text-transform: uppercase; letter-spacing: 1px; transition: color 0.3s;">Juegos</a>
+    <a href="#utilidades" style="color: #e0e0e0; text-decoration: none; font-weight: 500; text-transform: uppercase; letter-spacing: 1px; transition: color 0.3s;">Utilidades</a>
 </nav>
 
-<section id="hub-inicio" class="content-section">
-<img src="https://i.redd.it/i-make-cheeto-icon-v0-5baxdlmee1gf1.png?width=266&format=png&auto=webp&s=bab88fc2527ba6e3e7dcd50687151fb64b6ef5b6" alt="Logo de New Cheto's Club" class="inicio-image">
-<h1>ChetoHub</h1>
-<p style="font-size: 1.2em; color: var(--secondary-text-color);">Una colección de herramientas y juegos hecho por Said.</p>
-<p style="font-size: 1.2em; color: var(--accent-purple);">Selecciona una sección o usa el menú de arriba para navegar.</p>
+<section id="hub-inicio" style="padding: 80px 5% 5px; text-align: center; border-bottom: none; display: flex; flex-direction: column; align-items: center; position: relative;">
+    <img src="https://i.redd.it/i-make-cheeto-icon-v0-5baxdlmee1gf1.png?width=266&format=png&auto=webp&s=bab88fc2527ba6e3e7dcd50687151fb64b6ef5b6" alt="Logo de New Cheto's Club" style="max-width: 100%; height: auto; max-height: 180px; border-radius: 10px; margin-bottom: 20px; box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5); object-fit: cover;">
+    <h1 style="color: #e0e0e0;">ChetoHub</h1>
+    <p style="font-size: 1.2em; color: #a0a0a0;">Una colección de herramientas y juegos hecho por Said.</p>
+    <p style="font-size: 1.2em; color: #9c27b0;">Selecciona una sección o usa el menú de arriba para navegar.</p>
 </section>
 
 
-<section id="herramientas" class="content-section">
-<h2>Herramientas</h2>
-<div class="gallery-container">
+<section id="herramientas" style="padding: 60px 5% 30px; border-bottom: 1px solid #333; padding-top: 100px;">
+    <h2 style="font-weight: 300; font-size: 2.5em; letter-spacing: 2px; margin-bottom: 30px; border-bottom: 2px solid #ff9800; display: inline-block; padding-bottom: 5px;">Herramientas</h2>
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 20px; max-width: 1400px; margin: 0 auto; padding: 20px 0; align-items: start;">
 
-<a href="https://script.google.com/macros/s/AKfycbwMZy_YHRYbXgD-1yHwVd2bJ9oWXJ2nnmkn6wQAl3RImFzpL9kqJBhAUhH-qnMSYcMx/exec" class="card-link">
-<div class="card card-orange">
-<i class="fas fa-wrench category-icon icon-orange"></i>
-<div class="card-logo-container">
-<img src="https://icon-library.com/images/youtube-icon-download-for-desktop/youtube-icon-download-for-desktop-17.jpg" alt="Logo Base de Datos"> 
-</div>
-<h3>Youtube Downloader (google.com.to)</h3>
-<p>Convierta los videos de YouTube en formato MP4 en calidad 4K/1080p/720p. Descargas ilimitadas gratuitas sin registro requerido.</p>
-</div>
-</a>
+        <a href="https://script.google.com/macros/s/AKfycbwMZy_YHRYbXgD-1yHwVd2bJ9oWXJ2nnmkn6wQAl3RImFzpL9kqJBhAUhH-qnMSYcMx/exec" style="text-decoration: none; color: #e0e0e0; height: 100%;">
+            <div style="background-color: #1e1e1e; padding: 25px; border-radius: 15px; box-shadow: 0 8px 16px rgba(0, 0, 0, 0.5); border-left: 5px solid #ff9800; position: relative; min-height: 120px; display: flex; flex-direction: column; align-items: flex-start;">
+                <i class="fas fa-wrench" style="position: absolute; top: 15px; right: 15px; font-size: 1.5em; color: #ff9800;"></i>
+                <div style="max-width: 150px; height: 50px; margin-bottom: 13px; border-radius: 10px; display: flex; justify-content: flex-start; align-items: center; overflow: hidden;">
+                    <img src="https://icon-library.com/images/youtube-icon-download-for-desktop/youtube-icon-download-for-desktop-17.jpg" alt="Logo Base de Datos" style="width: auto; max-width: 100%; height: 100%; object-fit: contain;">
+                </div>
+                <h3 style="font-size: 1.4em; margin-top: 0; margin-bottom: 10px; font-weight: 600; color: #e0e0e0;">Youtube Downloader (google.com.to)</h3>
+                <p style="font-size: 0.9em; color: #a0a0a0; margin: 0;">Convierta los videos de YouTube en formato MP4 en calidad 4K/1080p/720p. Descargas ilimitadas gratuitas sin registro requerido.</p>
+            </div>
+        </a>
 
-<a href="analitica.html" class="card-link">
-<div class="card card-orange">
-<i class="fas fa-wrench category-icon icon-orange"></i>
-<div class="card-logo-container">
-<img src="https://via.placeholder.com/50/FF9800/FFFFFF?text=Analytics" alt="Logo Analítica"> 
-</div>
-<h3>Análisis y Reportes</h3>
-<p>Visualiza gráficos e informes de uso en tiempo real para optimización.</p>
-</div>
-</a>
+        <a href="analitica.html" style="text-decoration: none; color: #e0e0e0; height: 100%;">
+            <div style="background-color: #1e1e1e; padding: 25px; border-radius: 15px; box-shadow: 0 8px 16px rgba(0, 0, 0, 0.5); border-left: 5px solid #ff9800; position: relative; min-height: 120px; display: flex; flex-direction: column; align-items: flex-start;">
+                <i class="fas fa-wrench" style="position: absolute; top: 15px; right: 15px; font-size: 1.5em; color: #ff9800;"></i>
+                <div style="max-width: 150px; height: 50px; margin-bottom: 13px; border-radius: 10px; display: flex; justify-content: flex-start; align-items: center; overflow: hidden;">
+                    <img src="https://via.placeholder.com/50/FF9800/FFFFFF?text=Analytics" alt="Logo Analítica" style="width: auto; max-width: 100%; height: 100%; object-fit: contain;">
+                </div>
+                <h3 style="font-size: 1.4em; margin-top: 0; margin-bottom: 10px; font-weight: 600; color: #e0e0e0;">Análisis y Reportes</h3>
+                <p style="font-size: 0.9em; color: #a0a0a0; margin: 0;">Visualiza gráficos e informes de uso en tiempo real para optimización.</p>
+            </div>
+        </a>
 
-<a href="hardware.html" class="card-link">
-<div class="card card-orange">
-<i class="fas fa-wrench category-icon icon-orange"></i>
-<div class="card-logo-container">
-<img src="https://via.placeholder.com/50/FF9800/FFFFFF?text=HW" alt="Logo Hardware"> 
-</div>
-<h3>Ajustes de Sistema</h3>
-<p>Utilidad para la configuración de bajo nivel del sistema operativo.</p>
-</div>
-</a>
+        <a href="hardware.html" style="text-decoration: none; color: #e0e0e0; height: 100%;">
+            <div style="background-color: #1e1e1e; padding: 25px; border-radius: 15px; box-shadow: 0 8px 16px rgba(0, 0, 0, 0.5); border-left: 5px solid #ff9800; position: relative; min-height: 120px; display: flex; flex-direction: column; align-items: flex-start;">
+                <i class="fas fa-wrench" style="position: absolute; top: 15px; right: 15px; font-size: 1.5em; color: #ff9800;"></i>
+                <div style="max-width: 150px; height: 50px; margin-bottom: 13px; border-radius: 10px; display: flex; justify-content: flex-start; align-items: center; overflow: hidden;">
+                    <img src="https://via.placeholder.com/50/FF9800/FFFFFF?text=HW" alt="Logo Hardware" style="width: auto; max-width: 100%; height: 100%; object-fit: contain;">
+                </div>
+                <h3 style="font-size: 1.4em; margin-top: 0; margin-bottom: 10px; font-weight: 600; color: #e0e0e0;">Ajustes de Sistema</h3>
+                <p style="font-size: 0.9em; color: #a0a0a0; margin: 0;">Utilidad para la configuración de bajo nivel del sistema operativo.</p>
+            </div>
+        </a>
 
-</div>
+    </div>
 </section>
 
 
-<section id="juegos" class="content-section">
-<h2>Juegos</h2>
-<div class="gallery-container">
+<section id="juegos" style="padding: 60px 5% 30px; border-bottom: 1px solid #333; padding-top: 100px;">
+    <h2 style="font-weight: 300; font-size: 2.5em; letter-spacing: 2px; margin-bottom: 30px; border-bottom: 2px solid #4CAF50; display: inline-block; padding-bottom: 5px;">Juegos</h2>
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 20px; max-width: 1400px; margin: 0 auto; padding: 20px 0; align-items: start;">
 
-<a href="EaglercraftX_1.8_WASM-GC_Offline_Download.html" class="card-link">
-<div class="card card-green">
-<i class="fas fa-gamepad category-icon icon-green"></i>
-<div class="card-logo-container">
-<img src="https://img.itch.zone/aW1nLzE5MjYyODg5LnBuZw==/original/Ba1dl3.png" alt="Logo Minecraft"> 
-</div>
-<h3>EaglercraftX (Minecraft 1.8.9 WASM)</h3>
-<p>Crea todo lo que puedas imaginar, descubre misterios espeluznantes y sobrevive a la noche en el juego de aventura tipo sandbox definitivo. En Minecraft, cada partida es diferente y te esperan aventuras inolvidables a la vuelta de la esquina. Explora y crea tu camino a un mundo infinito al que le puedes dar forma bloque a bloque.
-</p>
-</div>
-</a>
+        <a href="EaglercraftX_1.8_WASM-GC_Offline_Download.html" style="text-decoration: none; color: #e0e0e0; height: 100%;">
+            <div style="background-color: #1e1e1e; padding: 25px; border-radius: 15px; box-shadow: 0 8px 16px rgba(0, 0, 0, 0.5); border-left: 5px solid #4CAF50; position: relative; min-height: 120px; display: flex; flex-direction: column; align-items: flex-start;">
+                <i class="fas fa-gamepad" style="position: absolute; top: 15px; right: 15px; font-size: 1.5em; color: #4CAF50;"></i>
+                <div style="max-width: 150px; height: 50px; margin-bottom: 13px; border-radius: 10px; display: flex; justify-content: flex-start; align-items: center; overflow: hidden;">
+                    <img src="https://img.itch.zone/aW1nLzE5MjYyODg5LnBuZw==/original/Ba1dl3.png" alt="Logo Minecraft" style="width: auto; max-width: 100%; height: 100%; object-fit: contain;">
+                </div>
+                <h3 style="font-size: 1.4em; margin-top: 0; margin-bottom: 10px; font-weight: 600; color: #e0e0e0;">EaglercraftX (Minecraft 1.8.9 WASM)</h3>
+                <p style="font-size: 0.9em; color: #a0a0a0; margin: 0;">Crea todo lo que puedas imaginar, descubre misterios espeluznantes y sobrevive a la noche en el juego de aventura tipo sandbox definitivo. En Minecraft, cada partida es diferente y te esperan aventuras inolvidables a la vuelta de la esquina. Explora y crea tu camino a un mundo infinito al que le puedes dar forma bloque a bloque.</p>
+            </div>
+        </a>
 
-<a href="https://script.google.com/macros/s/AKfycbx63iRe5mtf5PQGIn_eGwKePxCA1iU6w-YApn57Mh4phi2ZB-G-GCJA1YTV9jKrwoqb/exec" class="card-link">
-<div class="card card-green">
-<i class="fas fa-gamepad category-icon icon-green"></i>
-<div class="card-logo-container">
-<img src="https://smashkarts.io/images/smashkarts.png" alt="Logosk"> 
-</div>
-<h3>Smash Karts</h3>
-<p>Smash Karts is a free io Multiplayer Kart Battle Arena game. Drive fast. Fire rockets. Make big explosions.</p>
-</div>
-</a>
+        <a href="https://script.google.com/macros/s/AKfycbx63iRe5mtf5PQGIn_eGwKePxCA1iU6w-YApn57Mh4phi2ZB-G-GCJA1YTV9jKrwoqb/exec" style="text-decoration: none; color: #e0e0e0; height: 100%;">
+            <div style="background-color: #1e1e1e; padding: 25px; border-radius: 15px; box-shadow: 0 8px 16px rgba(0, 0, 0, 0.5); border-left: 5px solid #4CAF50; position: relative; min-height: 120px; display: flex; flex-direction: column; align-items: flex-start;">
+                <i class="fas fa-gamepad" style="position: absolute; top: 15px; right: 15px; font-size: 1.5em; color: #4CAF50;"></i>
+                <div style="max-width: 150px; height: 50px; margin-bottom: 13px; border-radius: 10px; display: flex; justify-content: flex-start; align-items: center; overflow: hidden;">
+                    <img src="https://smashkarts.io/images/smashkarts.png" alt="Logosk" style="width: auto; max-width: 100%; height: 100%; object-fit: contain;">
+                </div>
+                <h3 style="font-size: 1.4em; margin-top: 0; margin-bottom: 10px; font-weight: 600; color: #e0e0e0;">Smash Karts</h3>
+                <p style="font-size: 0.9em; color: #a0a0a0; margin: 0;">Smash Karts is a free io Multiplayer Kart Battle Arena game. Drive fast. Fire rockets. Make big explosions.</p>
+            </div>
+        </a>
 
-    <a href="nesemulator/nes.html" class="card-link">
-<div class="card card-green">
-<i class="fas fa-gamepad category-icon icon-green"></i>
-<div class="card-logo-container">
-<img src="https://icon-library.com/images/nes-icon/nes-icon-19.jpg" alt="Logosk"> 
-</div>
-<h3>Nes emulator</h3>
-<p>Emulador avanzado de NES de código abierto (conocido como Famicom en Japón) basado en jnes. Para jugar se necesita tener descargadas roms de nes.</p>
-</div>
-</a>
+        <a href="nesemulator/nes.html" style="text-decoration: none; color: #e0e0e0; height: 100%;">
+            <div style="background-color: #1e1e1e; padding: 25px; border-radius: 15px; box-shadow: 0 8px 16px rgba(0, 0, 0, 0.5); border-left: 5px solid #4CAF50; position: relative; min-height: 120px; display: flex; flex-direction: column; align-items: flex-start;">
+                <i class="fas fa-gamepad" style="position: absolute; top: 15px; right: 15px; font-size: 1.5em; color: #4CAF50;"></i>
+                <div style="max-width: 150px; height: 50px; margin-bottom: 13px; border-radius: 10px; display: flex; justify-content: flex-start; align-items: center; overflow: hidden;">
+                    <img src="https://icon-library.com/images/nes-icon/nes-icon-19.jpg" alt="Logosk" style="width: auto; max-width: 100%; height: 100%; object-fit: contain;">
+                </div>
+                <h3 style="font-size: 1.4em; margin-top: 0; margin-bottom: 10px; font-weight: 600; color: #e0e0e0;">Nes emulator</h3>
+                <p style="font-size: 0.9em; color: #a0a0a0; margin: 0;">Emulador avanzado de NES de código abierto (conocido como Famicom en Japón) basado en jnes. Para jugar se necesita tener descargadas roms de nes.</p>
+            </div>
+        </a>
 
-        <a href="games/cavestory.html" class="card-link">
-<div class="card card-green">
-<i class="fas fa-gamepad category-icon icon-green"></i>
-<div class="card-logo-container">
-<img src="https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/bc2a2cbe-29f7-464d-8396-131bdd4ccd3f/d1z383r-576b2bd1-4670-429a-8775-389c7d64b8ad.png?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7InBhdGgiOiIvZi9iYzJhMmNiZS0yOWY3LTQ2NGQtODM5Ni0xMzFiZGQ0Y2NkM2YvZDF6Mzgzci01NzZiMmJkMS00NjcwLTQyOWEtODc3NS0zODljN2Q2NGI4YWQucG5nIn1dXSwiYXVkIjpbInVybjpzZXJ2aWNlOmZpbGUuZG93bmxvYWQiXX0.4LdsRjlpbDNOVUjtZcyHOdIIzUT8N8cIy6Zh1uSLmGk" alt="Logosk"> 
-</div>
-<h3>Cave Story</h3>
-<p>Cave Story es un juego de acción de plataformas y disparos.
-Explora las cuevas hasta llegar al final.
-También puedes guardar la partida y continuar donde la dejaste.</p>
-</div>
-</a>
+        <a href="games/cavestory.html" style="text-decoration: none; color: #e0e0e0; height: 100%;">
+            <div style="background-color: #1e1e1e; padding: 25px; border-radius: 15px; box-shadow: 0 8px 16px rgba(0, 0, 0, 0.5); border-left: 5px solid #4CAF50; position: relative; min-height: 120px; display: flex; flex-direction: column; align-items: flex-start;">
+                <i class="fas fa-gamepad" style="position: absolute; top: 15px; right: 15px; font-size: 1.5em; color: #4CAF50;"></i>
+                <div style="max-width: 150px; height: 50px; margin-bottom: 13px; border-radius: 10px; display: flex; justify-content: flex-start; align-items: center; overflow: hidden;">
+                    <img src="https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/bc2a2cbe-29f7-464d-8396-131bdd4ccd3f/d1z383r-576b2bd1-4670-429a-8775-389c7d64b8ad.png?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7InBhdGgiOiIvZi9iYzJhMmNiZS0yOWY3LTQ2NGQtODM5Ni0xMzFiZGQ0Y2NkM2YvZDF6Mzgzci01NzZiMmJkMS00NjcwLTQyOWEtODc3NS0zODljN2Q2NGI4YWQucG5nIn1dXSwiYXVkIjpbInVybjpzZXJ2aWNlOmZpbGUuZG93bmxvYWQiXX0.4LdsRjlpbDNOVUjtZcyHOdIIzUT8N8cIy6Zh1uSLmGk" alt="Logosk" style="width: auto; max-width: 100%; height: 100%; object-fit: contain;">
+                </div>
+                <h3 style="font-size: 1.4em; margin-top: 0; margin-bottom: 10px; font-weight: 600; color: #e0e0e0;">Cave Story</h3>
+                <p style="font-size: 0.9em; color: #a0a0a0; margin: 0;">Cave Story es un juego de acción de plataformas y disparos. Explora las cuevas hasta llegar al final. También puedes guardar la partida y continuar donde la dejaste.</p>
+            </div>
+        </a>
 
-        <a href="games/mariobrosnes/.html" class="card-link">
-<div class="card card-green">
-<i class="fas fa-gamepad category-icon icon-green"></i>
-<div class="card-logo-container">
-<img src="https://p1.hiclipart.com/preview/40/987/765/super-mario-nes-dock-icons-mario-cartridge-png-icon-thumbnail.jpg" alt="Logosk"> 
-</div>
-<h3>Super Mario Bros</h3>
-<p>Super Mario es una serie de videojuegos de plataformas creada por Nintendo protagonizada por su mascota, Mario. Es la serie central de la gran franquicia de Mario. Se ha lanzado al menos un juego de Super Mario para todas las principales consolas de videojuegos de Nintendo.</p>
-</div>
-</a>
-    
-</div>
+        <a href="games/mariobrosnes/.html" style="text-decoration: none; color: #e0e0e0; height: 100%;">
+            <div style="background-color: #1e1e1e; padding: 25px; border-radius: 15px; box-shadow: 0 8px 16px rgba(0, 0, 0, 0.5); border-left: 5px solid #4CAF50; position: relative; min-height: 120px; display: flex; flex-direction: column; align-items: flex-start;">
+                <i class="fas fa-gamepad" style="position: absolute; top: 15px; right: 15px; font-size: 1.5em; color: #4CAF50;"></i>
+                <div style="max-width: 150px; height: 50px; margin-bottom: 13px; border-radius: 10px; display: flex; justify-content: flex-start; align-items: center; overflow: hidden;">
+                    <img src="https://p1.hiclipart.com/preview/40/987/765/super-mario-nes-dock-icons-mario-cartridge-png-icon-thumbnail.jpg" alt="Logosk" style="width: auto; max-width: 100%; height: 100%; object-fit: contain;">
+                </div>
+                <h3 style="font-size: 1.4em; margin-top: 0; margin-bottom: 10px; font-weight: 600; color: #e0e0e0;">Super Mario Bros</h3>
+                <p style="font-size: 0.9em; color: #a0a0a0; margin: 0;">Super Mario es una serie de videojuegos de plataformas creada por Nintendo protagonizada por su mascota, Mario. Es la serie central de la gran franquicia de Mario. Se ha lanzado al menos un juego de Super Mario para todas las principales consolas de videojuegos de Nintendo.</p>
+            </div>
+        </a>
+
+    </div>
 </section>
 
 
-<section id="utilidades" class="content-section">
-<h2>Utilidades</h2>
-<div class="gallery-container">
+<section id="utilidades" style="padding: 60px 5% 30px; border-bottom: 1px solid #333; padding-top: 100px;">
+    <h2 style="font-weight: 300; font-size: 2.5em; letter-spacing: 2px; margin-bottom: 30px; border-bottom: 2px solid #9c27b0; display: inline-block; padding-bottom: 5px;">Utilidades</h2>
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 20px; max-width: 1400px; margin: 0 auto; padding: 20px 0; align-items: start;">
 
-<a href="https://snail-ide.js.org/" class="card-link">
-<div class="card card-purple">
-<i class="fas fa-pen-ruler category-icon icon-purple"></i>
-<div class="card-logo-container">
-<img src="https://strifestudio.com/wp-content/uploads/2024/01/logo-1024x1024.jpg" alt="Logo Soporte"> 
-</div>
-<h3>Snail (Scratch only editor)</h3>
-<p>Scratch is a free programming language and online community where you can create your own interactive stories, games, and animations.</p>
-</div>
-</a>
+        <a href="https://snail-ide.js.org/" style="text-decoration: none; color: #e0e0e0; height: 100%;">
+            <div style="background-color: #1e1e1e; padding: 25px; border-radius: 15px; box-shadow: 0 8px 16px rgba(0, 0, 0, 0.5); border-left: 5px solid #9c27b0; position: relative; min-height: 120px; display: flex; flex-direction: column; align-items: flex-start;">
+                <i class="fas fa-pen-ruler" style="position: absolute; top: 15px; right: 15px; font-size: 1.5em; color: #9c27b0;"></i>
+                <div style="max-width: 150px; height: 50px; margin-bottom: 13px; border-radius: 10px; display: flex; justify-content: flex-start; align-items: center; overflow: hidden;">
+                    <img src="https://strifestudio.com/wp-content/uploads/2024/01/logo-1024x1024.jpg" alt="Logo Soporte" style="width: auto; max-width: 100%; height: 100%; object-fit: contain;">
+                </div>
+                <h3 style="font-size: 1.4em; margin-top: 0; margin-bottom: 10px; font-weight: 600; color: #e0e0e0;">Snail (Scratch only editor)</h3>
+                <p style="font-size: 0.9em; color: #a0a0a0; margin: 0;">Scratch is a free programming language and online community where you can create your own interactive stories, games, and animations.</p>
+            </div>
+        </a>
 
-<a href="proximamente" class="card-link">
-<div class="card card-purple">
-<i class="fas fa-pen-ruler category-icon icon-purple"></i>
-<div class="card-logo-container">
-<img src="https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/png/t3-chat.png" alt="Logo API"> 
-</div>
-<h3>SardChat</h3>
-<p>Un clon de whatsapp web simple. Desarrollado por Said con la planificacion de Wils.</p>
-</div>
-</a>
+        <a href="proximamente" style="text-decoration: none; color: #e0e0e0; height: 100%;">
+            <div style="background-color: #1e1e1e; padding: 25px; border-radius: 15px; box-shadow: 0 8px 16px rgba(0, 0, 0, 0.5); border-left: 5px solid #9c27b0; position: relative; min-height: 120px; display: flex; flex-direction: column; align-items: flex-start;">
+                <i class="fas fa-pen-ruler" style="position: absolute; top: 15px; right: 15px; font-size: 1.5em; color: #9c27b0;"></i>
+                <div style="max-width: 150px; height: 50px; margin-bottom: 13px; border-radius: 10px; display: flex; justify-content: flex-start; align-items: center; overflow: hidden;">
+                    <img src="https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/png/t3-chat.png" alt="Logo API" style="width: auto; max-width: 100%; height: 100%; object-fit: contain;">
+                </div>
+                <h3 style="font-size: 1.4em; margin-top: 0; margin-bottom: 10px; font-weight: 600; color: #e0e0e0;">SardChat</h3>
+                <p style="font-size: 0.9em; color: #a0a0a0; margin: 0;">Un clon de whatsapp web simple. Desarrollado por Said con la planificacion de Wils.</p>
+            </div>
+        </a>
 
-<a href="nesemulator/roms/index.html" class="card-link">
-<div class="card card-purple">
-<i class="fas fa-pen-ruler category-icon icon-purple"></i>
-<div class="card-logo-container">
-<img src="https://www.svgrepo.com/show/366573/application-x-nes-rom.svg" alt="Logo Perfil"> 
-</div>
-<h3>Nes Roms Download</h3>
-<p>Download and play Nintendo Entertainment System ROMs free of charge directly on your computer or phone.</p>
-</div>
-</a>
+        <a href="nesemulator/roms/index.html" style="text-decoration: none; color: #e0e0e0; height: 100%;">
+            <div style="background-color: #1e1e1e; padding: 25px; border-radius: 15px; box-shadow: 0 8px 16px rgba(0, 0, 0, 0.5); border-left: 5px solid #9c27b0; position: relative; min-height: 120px; display: flex; flex-direction: column; align-items: flex-start;">
+                <i class="fas fa-pen-ruler" style="position: absolute; top: 15px; right: 15px; font-size: 1.5em; color: #9c27b0;"></i>
+                <div style="max-width: 150px; height: 50px; margin-bottom: 13px; border-radius: 10px; display: flex; justify-content: flex-start; align-items: center; overflow: hidden;">
+                    <img src="https://www.svgrepo.com/show/366573/application-x-nes-rom.svg" alt="Logo Perfil" style="width: auto; max-width: 100%; height: 100%; object-fit: contain;">
+                </div>
+                <h3 style="font-size: 1.4em; margin-top: 0; margin-bottom: 10px; font-weight: 600; color: #e0e0e0;">Nes Roms Download</h3>
+                <p style="font-size: 0.9em; color: #a0a0a0; margin: 0;">Download and play Nintendo Entertainment System ROMs free of charge directly on your computer or phone.</p>
+            </div>
+        </a>
 
-</div>
-<div style="height: 50px;"></div> 
+    </div>
+    <div style="height: 50px;"></div>
 </section>
 
 
