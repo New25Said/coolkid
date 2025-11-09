@@ -5,73 +5,105 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>NES Classics ROMS</title>
     <style>
-        /* --- Estilos Retro NES Mejorados --- */
+        /* -------------------------------------- */
+        /* 1. Variables de Color (Light Mode por defecto) */
+        /* -------------------------------------- */
+        :root {
+            --bg-color: #f0f0f5; /* Fondo claro */
+            --container-bg: #ffffff; /* Fondo del contenedor */
+            --text-color: #2c3e50; /* Texto principal (Gris oscuro) */
+            --accent-color: #e74c3c; /* Color de énfasis (Rojo suave/Retro) */
+            --link-color: #3498db; /* Color de enlaces (Azul) */
+            --border-color: #ecf0f1; /* Color de borde y separador */
+            --shadow-color: rgba(0, 0, 0, 0.05);
+        }
+
+        /* -------------------------------------- */
+        /* 2. Media Query para Dark Mode */
+        /* -------------------------------------- */
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --bg-color: #1a1a2e; /* Fondo oscuro (Estilo noche) */
+                --container-bg: #2c2c44; /* Contenedor más oscuro */
+                --text-color: #ecf0f1; /* Texto blanco/claro */
+                --accent-color: #ff6b6b; /* Rojo más brillante */
+                --link-color: #9b59b6; /* Enlaces con un color púrpura/violeta */
+                --border-color: #3e4460;
+                --shadow-color: rgba(0, 0, 0, 0.4);
+            }
+        }
+
+        /* -------------------------------------- */
+        /* 3. Estilos Globales y de Elementos */
+        /* -------------------------------------- */
         body {
             font-family: 'Arial', sans-serif;
-            margin: 0; /* Eliminar margen para mejor control */
+            margin: 0;
             padding: 20px;
-            background-color: #111; /* Fondo oscuro (casi negro) */
-            color: #333; /* Texto por defecto oscuro */
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            transition: background-color 0.3s, color 0.3s; /* Transición suave al cambiar de modo */
         }
         .container {
-            max-width: 800px;
-            margin: 50px auto; /* Centrar y añadir espacio superior */
-            background: #EEE; /* Gris claro, recordando a la carcasa de la consola */
-            padding: 20px 30px;
-            border-radius: 4px; /* Bordes ligeramente redondeados */
-            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.5), inset 0 0 10px rgba(255, 255, 255, 0.2); /* Sombra más profunda y sutil brillo interior */
+            max-width: 700px;
+            margin: 50px auto;
+            background: var(--container-bg);
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px var(--shadow-color);
         }
         h1 {
-            color: #E40000; /* Color Rojo NES vibrante */
+            color: var(--accent-color);
             text-align: center;
-            border-bottom: 3px solid #333; /* Línea separadora más fuerte */
+            border-bottom: 2px solid var(--border-color);
             padding-bottom: 15px;
-            margin-bottom: 30px;
-            font-size: 1.8em;
-            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2); /* Sombra para el texto */
+            margin-bottom: 20px;
+            font-size: 1.6em;
         }
+
+        /* Lista de Archivos (Minimalista) */
         #file-list {
             list-style: none;
             padding: 0;
         }
         #file-list li {
-            transition: background-color 0.2s; /* Transición suave para el hover */
-            border-bottom: 1px solid #AAA; /* Borde más sutil */
+            border-bottom: 1px solid var(--border-color);
         }
         #file-list li:last-child {
             border-bottom: none;
         }
         #file-list a {
             text-decoration: none;
-            color: #0044BB; /* Azul clásico de los juegos/pantallas */
-            font-weight: bold;
-            display: flex; /* Usar flexbox para alinear ícono y texto */
+            color: var(--link-color);
+            display: flex;
             align-items: center;
-            padding: 10px 15px; /* Más padding para que parezca un botón de menú */
-            font-size: 1.1em;
+            padding: 10px 0;
             transition: all 0.2s;
         }
         #file-list a:hover {
-            background-color: #333; /* Fondo oscuro al hacer hover */
-            color: #FFF; /* Texto blanco al hacer hover, simulando selección */
-            text-decoration: none;
-            border-radius: 2px;
+            color: var(--accent-color);
+            background-color: var(--border-color);
+            padding-left: 10px; /* Desplazamiento sutil al hacer hover */
+        }
+
+        /* Íconos y Mensajes */
+        .file-icon {
+            margin-right: 12px;
+            font-size: 1.1em;
+            color: var(--accent-color); /* Dar color de énfasis a los íconos */
         }
         .loading {
             text-align: center;
-            font-size: 1.1em;
-            color: #E40000; /* Color de NES para el mensaje de carga */
+            font-size: 1em;
+            color: var(--link-color);
             padding: 20px;
-        }
-        .file-icon {
-            margin-right: 15px;
-            font-size: 1.2em; /* Íconos un poco más grandes */
         }
         p {
             text-align: center;
-            color: #666;
+            color: var(--text-color);
+            opacity: 0.7;
             margin-top: 30px;
-            font-style: italic;
+            font-size: 0.9em;
         }
     </style>
 </head>
@@ -138,12 +170,12 @@
                     });
                     
                     if (listElement.children.length === 0) {
-                        listElement.innerHTML = '<li class="loading" style="color: #0044BB;">No se encontraron archivos descargables en esta carpeta.</li>';
+                        listElement.innerHTML = '<li class="loading">No se encontraron archivos descargables en esta carpeta.</li>';
                     }
                 })
                 .catch(error => {
                     console.error('Error al obtener la lista de archivos:', error);
-                    listElement.innerHTML = `<li style="color: #E40000; padding: 20px;">🚨 ¡Error al cargar archivos! ${error.message}</li>`;
+                    listElement.innerHTML = `<li style="color: var(--accent-color); padding: 20px;">🚨 ¡Error al cargar archivos! ${error.message}</li>`;
                 });
         }
         
