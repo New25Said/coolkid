@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Explorador de Archivos de coolkid</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f4f4f9;
+        }
+        .container {
+            max-width: 800px;
+            margin: auto;
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            color: #333;
+            border-bottom: 2px solid #eee;
+            padding-bottom: 10px;
+        }
+        #file-list {
+            list-style: none;
+            padding: 0;
+        }
+        #file-list li {
+            padding: 10px 0;
+            border-bottom: 1px dashed #ddd;
+        }
+        #file-list li:last-child {
+            border-bottom: none;
+        }
+        #file-list a {
+            text-decoration: none;
+            color: #007bff;
+            font-weight: bold;
+            display: block;
+            padding: 5px 0;
+        }
+        #file-list a:hover {
+            color: #0056b3;
+            text-decoration: underline;
+        }
+        .loading {
+            text-align: center;
+            font-size: 1.2em;
+            color: #6c757d;
+        }
+        .file-icon {
+            margin-right: 10px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>🕹️ ROMs Disponibles para Descargar</h1>
+        
+        <ul id="file-list">
+            <li class="loading">Cargando archivos...</li>
+        </ul>
+        
+        <p>Solo se mostrarán archivos.</p>
+    </div>
+
+    <script>
+        // *****************************************************************
+        // *** CONFIGURACIÓN ADAPTADA PARA New25Said/coolkid/main          ***
+        // *****************************************************************
+        const GITHUB_USERNAME = "New25Said"; 
+        const REPO_NAME = "coolkid"; 
+        const REPO_BRANCH = "main"; // Confirma que 'main' es tu rama de publicación de Pages.
+        const PATH_TO_BROWSE = "nesemulator/roms/"; // Ruta dentro del repo donde está este archivo.
+        // *****************************************************************
+
+        const API_URL = `https://api.github.com/repos/${GITHUB_USERNAME}/${REPO_NAME}/contents/${PATH_TO_BROWSE}`;
+        const RAW_URL_BASE = `https://raw.githubusercontent.com/${GITHUB_USERNAME}/${REPO_NAME}/${REPO_BRANCH}/${PATH_TO_BROWSE}`;
+
+        document.addEventListener('DOMContentLoaded', () => {
+            fetchFileList();
+        });
+
+        function fetchFileList() {
+            const listElement = document.getElementById('file-list');
+            listElement.innerHTML = '<li class="loading">Cargando...</li>';
+            
+            fetch(API_URL)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error(`Error ${response.status}: Asegúrese de que la ruta y la rama sean correctas.`);
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    listElement.innerHTML = ''; // Limpiar el mensaje de carga
+                    
+                    data.forEach(item => {
+                        // Solo procesar archivos
+                        if (item.type === 'file' && item.name !== 'browser.html') {
+                            const listItem = document.createElement('li');
+                            
+                            // El atributo 'download' fuerza al navegador a descargar
+                            const link = document.createElement('a');
+                            link.href = RAW_URL_BASE + item.name; // Usar la URL RAW para la descarga directa
+                            link.download = item.name; // Sugiere el nombre de archivo para la descarga
+                            
+                            // Añadir un ícono simple
+                            const icon = getFileIcon(item.name);
+                            link.innerHTML = `<span class="file-icon">${icon}</span>${item.name}`;
+                            
+                            listItem.appendChild(link);
+                            listElement.appendChild(listItem);
+                        }
+                    });
+                    
+                    if (listElement.children.length === 0) {
+                        listElement.innerHTML = '<li class="loading">No se encontraron archivos descargables en esta carpeta.</li>';
+                    }
+                })
+                .catch(error => {
+                    console.error('Error al obtener la lista de archivos:', error);
+                    listElement.innerHTML = `<li style="color: red;">¡Error al cargar archivos! ${error.message}</li>`;
+                });
+        }
+        
+        // Función simple para iconos
+        function getFileIcon(fileName) {
+            const extension = fileName.split('.').pop().toLowerCase();
+            switch (extension) {
+                case 'nes': return '🎮'; // Icono para ROMs de NES
+                case 'zip':
+                case 'rar': return '📦';
+                case 'pdf': return '📄';
+                case 'jpg':
+                case 'png':
+                case 'gif': return '🖼️';
+                default: return '📎';
+            }
+        }
+    </script>
+</body>
+</html>
