@@ -6,30 +6,33 @@
     <title>NES Classics ROMS</title>
     <style>
         /* -------------------------------------- */
-        /* 1. Variables de Color (Light Mode por defecto) */
+        /* 1. Variables de Color (Dark Mode Principal) */
         /* -------------------------------------- */
         :root {
-            --bg-color: #f0f0f5; /* Fondo claro */
-            --container-bg: #ffffff; /* Fondo del contenedor */
-            --text-color: #2c3e50; /* Texto principal (Gris oscuro) */
-            --accent-color: #e74c3c; /* Color de énfasis (Rojo suave/Retro) */
-            --link-color: #3498db; /* Color de enlaces (Azul) */
-            --border-color: #ecf0f1; /* Color de borde y separador */
-            --shadow-color: rgba(0, 0, 0, 0.05);
+            /* Colores principales para Modo Oscuro */
+            --bg-color: #121212; /* Fondo ultra oscuro */
+            --container-bg: #1f1f1f; /* Contenedor oscuro */
+            --text-color: #e0e0e0; /* Texto claro */
+            --accent-color: #00bcd4; /* Cian Eléctrico (Moderno) */
+            --link-color: #00bcd4; /* Enlaces en color de acento */
+            --border-color: #333333; /* Separadores sutiles */
+            --shadow-color: rgba(0, 0, 0, 0.5);
+            --hover-bg: #2c2c2c;
         }
 
         /* -------------------------------------- */
-        /* 2. Media Query para Dark Mode */
+        /* 2. Media Query para Light Mode (Alternativa) */
         /* -------------------------------------- */
-        @media (prefers-color-scheme: dark) {
+        @media (prefers-color-scheme: light) {
             :root {
-                --bg-color: #1a1a2e; /* Fondo oscuro (Estilo noche) */
-                --container-bg: #2c2c44; /* Contenedor más oscuro */
-                --text-color: #ecf0f1; /* Texto blanco/claro */
-                --accent-color: #ff6b6b; /* Rojo más brillante */
-                --link-color: #9b59b6; /* Enlaces con un color púrpura/violeta */
-                --border-color: #3e4460;
-                --shadow-color: rgba(0, 0, 0, 0.4);
+                --bg-color: #ffffff;
+                --container-bg: #f4f4f4;
+                --text-color: #333333;
+                --accent-color: #1a73e8; /* Azul profesional */
+                --link-color: #1a73e8;
+                --border-color: #e0e0e0;
+                --shadow-color: rgba(0, 0, 0, 0.1);
+                --hover-bg: #e9e9e9;
             }
         }
 
@@ -37,72 +40,79 @@
         /* 3. Estilos Globales y de Elementos */
         /* -------------------------------------- */
         body {
-            font-family: 'Arial', sans-serif;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* Tipografía moderna */
             margin: 0;
-            padding: 20px;
+            padding: 30px;
             background-color: var(--bg-color);
             color: var(--text-color);
-            transition: background-color 0.3s, color 0.3s;
+            transition: background-color 0.4s, color 0.4s;
         }
         .container {
-            max-width: 700px;
-            margin: 50px auto;
+            max-width: 800px;
+            margin: 0px auto;
             background: var(--container-bg);
-            padding: 30px;
-            border-radius: 8px;
-            box-shadow: 0 4px 15px var(--shadow-color);
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px var(--shadow-color); /* Sombra marcada */
         }
         h1 {
             color: var(--accent-color);
             text-align: center;
             border-bottom: 2px solid var(--border-color);
-            padding-bottom: 15px;
-            margin-bottom: 20px;
-            font-size: 1.6em;
+            padding-bottom: 20px;
+            margin-bottom: 30px;
+            font-size: 2em;
+            font-weight: 300; /* Fuente más ligera para un look moderno */
         }
 
-        /* Lista de Archivos (Minimalista) */
+        /* Lista de Archivos (Diseño Limpio) */
         #file-list {
             list-style: none;
             padding: 0;
         }
         #file-list li {
             border-bottom: 1px solid var(--border-color);
+            transition: background-color 0.2s;
         }
         #file-list li:last-child {
             border-bottom: none;
         }
         #file-list a {
             text-decoration: none;
-            color: var(--link-color);
+            color: var(--text-color); /* El nombre del archivo es sutil, el acento va en el ícono */
             display: flex;
             align-items: center;
-            padding: 10px 0;
+            padding: 12px 15px;
+            font-weight: 500;
+            border-left: 5px solid transparent; /* Línea de acento a la izquierda */
             transition: all 0.2s;
         }
         #file-list a:hover {
-            color: var(--accent-color);
-            background-color: var(--border-color);
-            padding-left: 10px; /* Desplazamiento sutil al hacer hover */
+            background-color: var(--hover-bg);
+            border-left: 5px solid var(--accent-color); /* Muestra el acento al hacer hover */
+            color: var(--text-color);
         }
 
         /* Íconos y Mensajes */
         .file-icon {
-            margin-right: 12px;
-            font-size: 1.1em;
-            color: var(--accent-color); /* Dar color de énfasis a los íconos */
+            margin-right: 15px;
+            font-size: 1.3em;
+            color: var(--accent-color); /* Íconos resaltados */
+            min-width: 30px; /* Asegura el espaciado */
+            text-align: center;
         }
         .loading {
             text-align: center;
-            font-size: 1em;
-            color: var(--link-color);
-            padding: 20px;
+            font-size: 1.1em;
+            color: var(--accent-color);
+            padding: 30px;
+            font-style: italic;
         }
         p {
             text-align: center;
             color: var(--text-color);
-            opacity: 0.7;
-            margin-top: 30px;
+            opacity: 0.6;
+            margin-top: 40px;
             font-size: 0.9em;
         }
     </style>
@@ -110,7 +120,7 @@
 <body>
 
     <div class="container">
-        <h1>🕹️ ROMs de Nintendo Entertainment System (NES) para Descargar :D 🕹️</h1>
+        <h1>🕹️ ROMs de Nintendo Entertainment System (NES) para Descargar 🕹️</h1>
         
         <ul id="file-list">
             <li class="loading">Cargando archivos...</li>
@@ -138,7 +148,7 @@
 
         function fetchFileList() {
             const listElement = document.getElementById('file-list');
-            listElement.innerHTML = '<li class="loading">Cargando...</li>';
+            listElement.innerHTML = '<li class="loading">Cargando archivos...</li>';
             
             fetch(API_URL)
                 .then(response => {
