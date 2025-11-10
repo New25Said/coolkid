@@ -173,12 +173,11 @@ body {
     max-width: 150px; 
     height: 50px;
     margin-bottom: 13px; 
-    border-radius: 10px; 
+    border-radius: 10px; /* Estilo que queremos anular en imágenes específicas */
     display: flex;
     justify-content: flex-start; 
     align-items: center;
     overflow: hidden; 
-    /* REVERTIDO: Eliminamos el fondo y el padding para que sea transparente */
 }
 
 
@@ -187,10 +186,9 @@ body {
     max-width: 100%; 
     height: 100%; 
     object-fit: contain; 
-    border-radius: 0; 
+    border-radius: 0; /* Por defecto ya es 0, pero se mantiene */
 }
     
-
 
 .card-icon-container { display: none; }
 
@@ -280,6 +278,22 @@ body {
         gap: 20px;
     }
 }
+
+
+/* -------------------------------------- */
+/* --- SOLUCION PARA ANULAR BORDER-RADIUS --- */
+/* -------------------------------------- */
+
+/* 1. Anula el redondeo en la imagen misma (por si acaso) */
+.sin-borde-redondo {
+    border-radius: 0 !important;
+}
+
+/* 2. Anula el redondeo en el CONTENEDOR (card-logo-container) que lo aplica realmente */
+.sin-borde-redondo-container {
+    border-radius: 0 !important;
+    overflow: visible !important; /* Asegura que no haya recortes */
+}
 </style>
 </head>
 <body>
@@ -300,38 +314,39 @@ body {
 
 <section id="herramientas" class="content-section">
 <h2>Herramientas</h2>
-<div class="gallery-container"> <a href="https://script.google.com/macros/s/AKfycbwMZy_YHRYbXgD-1yHwVd2bJ9oWXJ2nnmkn6wQAl3RImFzpL9kqJBhAUhH-qnMSYcMx/exec" class="card-link">
-<div class="card card-orange">
-<i class="fas fa-wrench category-icon icon-orange"></i>
-<div class="card-logo-container">
-<img src="https://icon-library.com/images/youtube-icon-download-for-desktop/youtube-icon-download-for-desktop-17.jpg" alt="Logo Base de Datos"> 
-</div>
-<h3>Youtube Downloader (google.com.to)</h3>
-<p>Convierta los videos de YouTube en formato MP4 en calidad 4K/1080p/720p. Descargas ilimitadas gratuitas sin registro requerido.</p>
-</div>
-</a>
+<div class="gallery-container"> 
+    <a href="https://script.google.com/macros/s/AKfycbwMZy_YHRYbXgD-1yHwVd2bJ9oWXJ2nnmkn6wQAl3RImFzpL9kqJBhAUhH-qnMSYcMx/exec" class="card-link">
+        <div class="card card-orange">
+            <i class="fas fa-wrench category-icon icon-orange"></i>
+            <div class="card-logo-container">
+                <img src="https://icon-library.com/images/youtube-icon-download-for-desktop/youtube-icon-download-for-desktop-17.jpg" alt="Logo Base de Datos"> 
+            </div>
+            <h3>Youtube Downloader (google.com.to)</h3>
+            <p>Convierta los videos de YouTube en formato MP4 en calidad 4K/1080p/720p. Descargas ilimitadas gratuitas sin registro requerido.</p>
+        </div>
+    </a>
 
-<a href="analitica.html" class="card-link">
-<div class="card card-orange">
-<i class="fas fa-wrench category-icon icon-orange"></i>
-<div class="card-logo-container">
-<img src="https://via.placeholder.com/50/FF9800/FFFFFF?text=Analytics" alt="Logo Analítica"> 
-</div>
-<h3>Análisis y Reportes</h3>
-<p>Visualiza gráficos e informes de uso en tiempo real para optimización.</p>
-</div>
-</a>
+    <a href="analitica.html" class="card-link">
+        <div class="card card-orange">
+            <i class="fas fa-wrench category-icon icon-orange"></i>
+            <div class="card-logo-container">
+                <img src="https://via.placeholder.com/50/FF9800/FFFFFF?text=Analytics" alt="Logo Analítica"> 
+            </div>
+            <h3>Análisis y Reportes</h3>
+            <p>Visualiza gráficos e informes de uso en tiempo real para optimización.</p>
+        </div>
+    </a>
 
-<a href="hardware.html" class="card-link">
-<div class="card card-orange">
-<i class="fas fa-wrench category-icon icon-orange"></i>
-<div class="card-logo-container">
-<img src="https://via.placeholder.com/50/FF9800/FFFFFF?text=HW" alt="Logo Hardware"> 
-</div>
-<h3>Ajustes de Sistema</h3>
-<p>Utilidad para la configuración de bajo nivel del sistema operativo.</p>
-</div>
-</a>
+    <a href="hardware.html" class="card-link">
+        <div class="card card-orange">
+            <i class="fas fa-wrench category-icon icon-orange"></i>
+            <div class="card-logo-container">
+                <img src="https://via.placeholder.com/50/FF9800/FFFFFF?text=HW" alt="Logo Hardware"> 
+            </div>
+            <h3>Ajustes de Sistema</h3>
+            <p>Utilidad para la configuración de bajo nivel del sistema operativo.</p>
+        </div>
+    </a>
 
 </div>
 </section>
@@ -339,63 +354,64 @@ body {
 
 <section id="juegos" class="content-section">
 <h2>Juegos</h2>
-<div class="masonry-gallery"> <a href="EaglercraftX_1.8_WASM-GC_Offline_Download.html" class="card-link">
-<div class="card card-green">
-<i class="fas fa-gamepad category-icon icon-green"></i>
-<div class="card-logo-container">
-<img src="https://img.itch.zone/aW1nLzE5MjYyODg5LnBuZw==/original/Ba1dl3.png" alt="Logo Minecraft"> 
-</div>
-<h3>EaglercraftX (Minecraft 1.8.9 WASM)</h3>
-<p>Crea todo lo que puedas imaginar, descubre misterios espeluznantes y sobrevive a la noche en el juego de aventura tipo sandbox definitivo. En Minecraft, cada partida es diferente y te esperan aventuras inolvidables a la vuelta de la esquina. Explora y crea tu camino a un mundo infinito al que le puedes dar forma bloque a bloque.
-</p>
-</div>
-</a>
+<div class="masonry-gallery"> 
+    <a href="**games/EaglercraftX_1.8_WASM-GC_Offline_Download.html**" class="card-link">
+        <div class="card card-green">
+            <i class="fas fa-gamepad category-icon icon-green"></i>
+            <div class="card-logo-container">
+                <img src="https://img.itch.zone/aW1nLzE5MjYyODg5LnBuZw==/original/Ba1dl3.png" alt="Logo Minecraft"> 
+            </div>
+            <h3>EaglercraftX (Minecraft 1.8.9 WASM)</h3>
+            <p>Crea todo lo que puedas imaginar, descubre misterios espeluznantes y sobrevive a la noche en el juego de aventura tipo sandbox definitivo. En Minecraft, cada partida es diferente y te esperan aventuras inolvidables a la vuelta de la esquina. Explora y crea tu camino a un mundo infinito al que le puedes dar forma bloque a bloque.
+            </p>
+        </div>
+    </a>
 
-<a href="https://script.google.com/macros/s/AKfycbx63iRe5mtf5PQGIn_eGwKePxCA1iU6w-YApn57Mh4phi2ZB-G-GCJA1YTV9jKrwoqb/exec" class="card-link">
-<div class="card card-green">
-<i class="fas fa-gamepad category-icon icon-green"></i>
-<div class="card-logo-container">
-<img src="https://smashkarts.io/images/smashkarts.png" alt="Logosk"> 
-</div>
-<h3>Smash Karts</h3>
-<p>Smash Karts is a free io Multiplayer Kart Battle Arena game. Drive fast. Fire rockets. Make big explosions.</p>
-</div>
-</a>
+    <a href="https://script.google.com/macros/s/AKfycbx63iRe5mtf5PQGIn_eGwKePxCA1iU6w-YApn57Mh4phi2ZB-G-GCJA1YTV9jKrwoqb/exec" class="card-link">
+        <div class="card card-green">
+            <i class="fas fa-gamepad category-icon icon-green"></i>
+            <div class="card-logo-container">
+                <img src="https://smashkarts.io/images/smashkarts.png" alt="Logosk"> 
+            </div>
+            <h3>Smash Karts</h3>
+            <p>Smash Karts is a free io Multiplayer Kart Battle Arena game. Drive fast. Fire rockets. Make big explosions.</p>
+        </div>
+    </a>
 
     <a href="nesemulator/nes.html" class="card-link">
-<div class="card card-green">
-<i class="fas fa-gamepad category-icon icon-green"></i>
-<div class="card-logo-container">
-<img src="https://icon-library.com/images/nes-icon/nes-icon-19.jpg" alt="Logosk"> 
-</div>
-<h3>Nes emulator</h3>
-<p>Emulador avanzado de NES de código abierto (conocido como Famicom en Japón) basado en jnes. Para jugar se necesita tener descargadas roms de nes.</p>
-</div>
-</a>
+        <div class="card card-green">
+            <i class="fas fa-gamepad category-icon icon-green"></i>
+            <div class="card-logo-container">
+                <img src="https://icon-library.com/images/nes-icon/nes-icon-19.jpg" alt="Logosk"> 
+            </div>
+            <h3>Nes emulator</h3>
+            <p>Emulador avanzado de NES de código abierto (conocido como Famicom en Japón) basado en jnes. Para jugar se necesita tener descargadas roms de nes.</p>
+        </div>
+    </a>
 
-        <a href="games/cavestory.html" class="card-link">
-<div class="card card-green">
-<i class="fas fa-gamepad category-icon icon-green"></i>
-<div class="card-logo-container">
-<img style="border-radius: 0 !important;" src="https://cdn2.steamgriddb.com/icon/9807a1e7fdb9edcc283f59dae4bcdc43.ico" alt="Logosk"> 
-</div>
-<h3>Cave Story</h3>
-<p>Cave Story es un juego de acción de plataformas y disparos.
-Explora las cuevas hasta llegar al final.
-También puedes guardar la partida y continuar donde la dejaste.</p>
-</div>
-</a>
+    <a href="games/cavestory.html" class="card-link">
+        <div class="card card-green">
+            <i class="fas fa-gamepad category-icon icon-green"></i>
+            <div class="card-logo-container **sin-borde-redondo-container**">
+                <img **class="sin-borde-redondo"** src="https://cdn2.steamgriddb.com/icon/9807a1e7fdb9edcc283f59dae4bcdc43.ico" alt="Logosk"> 
+            </div>
+            <h3>Cave Story</h3>
+            <p>Cave Story es un juego de acción de plataformas y disparos.
+            Explora las cuevas hasta llegar al final.
+            También puedes guardar la partida y continuar donde la dejaste.</p>
+        </div>
+    </a>
 
-        <a href="games/mariobrosnes/.html" class="card-link">
-<div class="card card-green">
-<i class="fas fa-gamepad category-icon icon-green"></i>
-<div class="card-logo-container">
-<img style="border-radius: 0 !important;" src="https://www.nicepng.com/png/full/435-4359574_nes-cartridge-png-super-mario-bros-nes-cart.png" alt="Logosk"> 
-</div>
-<h3>Super Mario Bros</h3>
-<p>Super Mario es una serie de videojuegos de plataformas creada por Nintendo protagonizada por su mascota, Mario. Es la serie central de la gran franquicia de Mario. Se ha lanzado al menos un juego de Super Mario para todas las principales consolas de videojuegos de Nintendo.</p>
-</div>
-</a>
+    <a href="games/mariobrosnes/.html" class="card-link">
+        <div class="card card-green">
+            <i class="fas fa-gamepad category-icon icon-green"></i>
+            <div class="card-logo-container **sin-borde-redondo-container**">
+                <img **class="sin-borde-redondo"** src="https://www.nicepng.com/png/full/435-4359574_nes-cartridge-png-super-mario-bros-nes-cart.png" alt="Logosk"> 
+            </div>
+            <h3>Super Mario Bros</h3>
+            <p>Super Mario es una serie de videojuegos de plataformas creada por Nintendo protagonizada por su mascota, Mario. Es la serie central de la gran franquicia de Mario. Se ha lanzado al menos un juego de Super Mario para todas las principales consolas de videojuegos de Nintendo.</p>
+        </div>
+    </a>
     
 </div>
 </section>
@@ -403,38 +419,39 @@ También puedes guardar la partida y continuar donde la dejaste.</p>
 
 <section id="utilidades" class="content-section">
 <h2>Utilidades</h2>
-<div class="gallery-container"> <a href="https://snail-ide.js.org/" class="card-link">
-<div class="card card-purple">
-<i class="fas fa-pen-ruler category-icon icon-purple"></i>
-<div class="card-logo-container">
-<img src="https://strifestudio.com/wp-content/uploads/2024/01/logo-1024x1024.jpg" alt="Logo Soporte"> 
-</div>
-<h3>Snail (Scratch only editor)</h3>
-<p>Scratch is a free programming language and online community where you can create your own interactive stories, games, and animations.</p>
-</div>
-</a>
+<div class="gallery-container"> 
+    <a href="https://snail-ide.js.org/" class="card-link">
+        <div class="card card-purple">
+            <i class="fas fa-pen-ruler category-icon icon-purple"></i>
+            <div class="card-logo-container">
+                <img src="https://strifestudio.com/wp-content/uploads/2024/01/logo-1024x1024.jpg" alt="Logo Soporte"> 
+            </div>
+            <h3>Snail (Scratch only editor)</h3>
+            <p>Scratch is a free programming language and online community where you can create your own interactive stories, games, and animations.</p>
+        </div>
+    </a>
 
-<a href="proximamente" class="card-link">
-<div class="card card-purple">
-<i class="fas fa-pen-ruler category-icon icon-purple"></i>
-<div class="card-logo-container">
-<img src="https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/png/t3-chat.png" alt="Logo API"> 
-</div>
-<h3>SardChat</h3>
-<p>Un clon de whatsapp web simple. Desarrollado por Said con la planificacion de Wils.</p>
-</div>
-</a>
+    <a href="proximamente" class="card-link">
+        <div class="card card-purple">
+            <i class="fas fa-pen-ruler category-icon icon-purple"></i>
+            <div class="card-logo-container">
+                <img src="https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/png/t3-chat.png" alt="Logo API"> 
+            </div>
+            <h3>SardChat</h3>
+            <p>Un clon de whatsapp web simple. Desarrollado por Said con la planificacion de Wils.</p>
+        </div>
+    </a>
 
-<a href="nesemulator/roms/index.html" class="card-link">
-<div class="card card-purple">
-<i class="fas fa-pen-ruler category-icon icon-purple"></i>
-<div class="card-logo-container">
-<img src="https://www.svgrepo.com/show/366573/application-x-nes-rom.svg" alt="Logo Perfil"> 
-</div>
-<h3>Nes Roms Download</h3>
-<p>Download and play Nintendo Entertainment System ROMs free of charge directly on your computer or phone.</p>
-</div>
-</a>
+    <a href="nesemulator/roms/index.html" class="card-link">
+        <div class="card card-purple">
+            <i class="fas fa-pen-ruler category-icon icon-purple"></i>
+            <div class="card-logo-container">
+                <img src="https://www.svgrepo.com/show/366573/application-x-nes-rom.svg" alt="Logo Perfil"> 
+            </div>
+            <h3>Nes Roms Download</h3>
+            <p>Download and play Nintendo Entertainment System ROMs free of charge directly on your computer or phone.</p>
+        </div>
+    </a>
 
 </div>
 <div style="height: 50px;"></div> 
