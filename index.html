@@ -115,11 +115,11 @@ body {
 #utilidades h2 { border-bottom-color: var(--accent-purple); }
 
 
-/* --- Estilos de las Tarjetas/Galería (Masonry FIX) --- */
+/* --- Estilos de las Tarjetas/Galería (GENERAL: GRID) --- */
 .gallery-container {
-    /* CAMBIO CLAVE: Usamos column-count para crear un efecto de mampostería (masonry) */
-    column-count: 3; /* Intenta mostrar 3 columnas si hay espacio */
-    column-gap: 20px; /* El espacio entre las columnas */
+    display: grid; /* Vuelve a Grid para Herramientas y Utilidades */
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 20px; 
     max-width: 1400px;
     margin: 0 auto;
     padding: 20px 0;
@@ -129,12 +129,26 @@ body {
 .card-link {
     text-decoration: none;
     color: var(--text-color);
-    /* Estas 3 líneas son cruciales para el Masonry: */
-    display: inline-block; 
-    width: 100%; 
-    margin-bottom: 20px; 
-    break-inside: avoid-column; /* CLAVE: Evita que la tarjeta se rompa y elimina el hueco */
+    margin-bottom: 0; /* Ya no es necesario si gallery-container es grid, pero lo dejamos a 0 por seguridad */
 }
+
+
+/* --- Clase Específica para el Diseño Masonry (solo para Juegos) --- */
+.masonry-gallery {
+    column-count: 3;
+    column-gap: 20px;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 20px 0;
+}
+
+.masonry-gallery .card-link {
+    display: inline-block;
+    width: 100%;
+    margin-bottom: 20px; /* Espacio vertical entre tarjetas en Masonry */
+    break-inside: avoid-column; /* CLAVE para Masonry */
+}
+/* Fin de Masonry Styles */
 
 
 .card {
@@ -155,7 +169,7 @@ body {
     overflow: hidden; 
 }
 
-/* --- Estilos para el LOGO dentro de la tarjeta --- */
+/* --- Estilos para el LOGO dentro de la tarjeta (AJUSTADO) --- */
 .card-logo-container {
     max-width: 150px; 
     height: 50px;
@@ -165,6 +179,10 @@ body {
     justify-content: flex-start; 
     align-items: center;
     overflow: hidden; 
+    /* Fondo para mejorar logos de placeholder/transparentes */
+    background-color: rgba(255, 255, 255, 0.05); 
+    padding: 5px; 
+    box-sizing: border-box;
 }
 
 .card-logo-container img {
@@ -255,9 +273,9 @@ body {
 
 /* --- MEDIA QUERY PARA RESPONSIVE (ARREGLO DE COLUMNAS) --- */
 @media (max-width: 768px) {
-    .gallery-container {
-        /* En pantallas pequeñas, solo queremos 1 columna */
+    .masonry-gallery, .gallery-container { /* Aplicamos la columna única a ambas clases */
         column-count: 1;
+        /* Si es grid, el auto-fit se encargará, pero lo forzamos para masonry */
     }
 }
 </style>
@@ -280,9 +298,7 @@ body {
 
 <section id="herramientas" class="content-section">
 <h2>Herramientas</h2>
-<div class="gallery-container">
-
-<a href="https://script.google.com/macros/s/AKfycbwMZy_YHRYbXgD-1yHwVd2bJ9oWXJ2nnmkn6wQAl3RImFzpL9kqJBhAUhH-qnMSYcMx/exec" class="card-link">
+<div class="gallery-container"> <a href="https://script.google.com/macros/s/AKfycbwMZy_YHRYbXgD-1yHwVd2bJ9oWXJ2nnmkn6wQAl3RImFzpL9kqJBhAUhH-qnMSYcMx/exec" class="card-link">
 <div class="card card-orange">
 <i class="fas fa-wrench category-icon icon-orange"></i>
 <div class="card-logo-container">
@@ -294,6 +310,8 @@ body {
 </a>
 
 <a href="analitica.html" class="card-link">
+<div class="card card-orange">
+<i class="fas fa-wrench category-icon icon-orange"></i>
 <div class="card card-orange">
 <i class="fas fa-wrench category-icon icon-orange"></i>
 <div class="card-logo-container">
@@ -321,9 +339,7 @@ body {
 
 <section id="juegos" class="content-section">
 <h2>Juegos</h2>
-<div class="gallery-container">
-
-<a href="EaglercraftX_1.8_WASM-GC_Offline_Download.html" class="card-link">
+<div class="masonry-gallery"> <a href="EaglercraftX_1.8_WASM-GC_Offline_Download.html" class="card-link">
 <div class="card card-green">
 <i class="fas fa-gamepad category-icon icon-green"></i>
 <div class="card-logo-container">
@@ -387,9 +403,7 @@ También puedes guardar la partida y continuar donde la dejaste.</p>
 
 <section id="utilidades" class="content-section">
 <h2>Utilidades</h2>
-<div class="gallery-container">
-
-<a href="https://snail-ide.js.org/" class="card-link">
+<div class="gallery-container"> <a href="https://snail-ide.js.org/" class="card-link">
 <div class="card card-purple">
 <i class="fas fa-pen-ruler category-icon icon-purple"></i>
 <div class="card-logo-container">
