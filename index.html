@@ -1,483 +1,178 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <link rel="shortcut icon" href="https://pbs.twimg.com/media/GGJxDOzXIAABa6_.jpg">
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ChetoHub</title>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-<style>
-/* -------------------------------------- */
-/* --- VARIABLES Y ESTILOS MODO OSCURO (DEFAULT) --- */
-/* -------------------------------------- */
-:root {
-    /* Colores del Modo Oscuro */
-    --bg-color: #121212; 
-    --card-bg: #1e1e1e; 
-    --text-color: #e0e0e0; 
-    --secondary-text-color: #a0a0a0; 
-    --shadow-color: rgba(0, 0, 0, 0.5);
-    --card-hover-bg: #2a2a2a;
-    
-    /* Colores de Categoría (Fijos en ambos modos para consistencia) */
-    --accent-orange: #ff9800; /* Herramientas */
-    --accent-green: #4CAF50; /* Juegos */
-    --accent-purple: #9c27b0; /* Utilidades */
-}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Visor de Contenido Oculto</title>
 
+    <style>
+        /* Estilos generales para que ocupe toda la pantalla */
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            overflow: hidden; /* Evita barras de desplazamiento en la página principal */
+        }
 
-/* Estilos generales (aplican a ambos modos, basados en las variables) */
-body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    margin: 0;
-    background-color: var(--bg-color);
-    color: var(--text-color);
-    scroll-behavior: smooth; 
-    transition: background-color 0.5s, color 0.5s; 
-}
+        /* Contenedor principal para el Fullscreen */
+        #contenedor-principal {
+            width: 100vw;
+            height: 100vh;
+            position: relative;
+        }
 
+        /* 1. La barra superior que quieres mantener */
+        #barra-superior {
+            height: 50px; /* Altura de la barra */
+            background-color: #333;
+            color: white;
+            display: flex;
+            align-items: center;
+            padding: 0 20px;
+            box-sizing: border-box;
+            position: relative;
+            z-index: 20; /* Siempre encima del iframe */
+        }
 
-/* --- Menú de Navegación Fijo --- */
-.navbar {
-    position: sticky;
-    top: 0;
-    width: 100%;
-    background-color: rgba(30, 30, 30, 0.95); 
-    padding: 15px 0;
-    box-shadow: 0 4px 8px var(--shadow-color);
-    z-index: 1000;
-    display: flex;
-    justify-content: center;
-    gap: 40px;
-}
+        #barra-superior a, #barra-superior button {
+            color: white;
+            text-decoration: none;
+            padding: 8px 15px;
+            margin-right: 10px;
+            background: #555;
+            border: none;
+            cursor: pointer;
+            border-radius: 4px;
+        }
 
-.navbar a {
-    color: var(--text-color);
-    text-decoration: none;
-    font-weight: 500;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    transition: color 0.3s, text-shadow 0.3s;
-}
+        /* 2. El contenido de inicio que se oculta */
+        #contenido-inicio {
+            position: absolute;
+            top: 50px; /* Justo debajo de la barra superior */
+            left: 0;
+            width: 100%;
+            height: calc(100vh - 50px); /* El resto de la altura */
+            background-color: #f0f0f0;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            z-index: 10;
+        }
 
-/* Colores de hover para el menú */
-.navbar a[href="#herramientas"]:hover { color: var(--accent-orange); text-shadow: 0 0 10px var(--accent-orange); }
-.navbar a[href="#juegos"]:hover { color: var(--accent-green); text-shadow: 0 0 10px var(--accent-green); }
-.navbar a[href="#utilidades"]:hover { color: var(--accent-purple); text-shadow: 0 0 10px var(--accent-purple); }
-.navbar a[href="#hub-inicio"]:hover { color: #00bcd4; text-shadow: 0 0 10px #00bcd4; } 
+        /* 3. El Iframe que cargará la página */
+        #visor-web {
+            position: absolute;
+            top: 50px; /* Comienza debajo de la barra */
+            left: 0;
+            width: 100%;
+            height: calc(100vh - 50px); /* El resto de la altura */
+            border: none;
+            display: none; /* Inicialmente oculto */
+            z-index: 15;
+            /* Permite que el contenido dentro del iframe active el fullscreen */
+            allowfullscreen: true; 
+        }
 
+        /* Clase para ocultar elementos */
+        .oculto {
+            display: none !important;
+        }
 
-/* --- Contenido Principal --- */
-.content-section {
-    padding: 60px 5% 30px; 
-    border-bottom: 1px solid #333; 
-    /* Este padding-top es para todas las secciones que no son la de inicio */
-    padding-top: 100px; 
-}
+        /* Estilo para el contenedor principal cuando está en Fullscreen */
+        #contenedor-principal:fullscreen #barra-superior {
+            display: none; /* OCULTA LA BARRA SUPERIOR en modo fullscreen */
+        }
+        
+        #contenedor-principal:-webkit-full-screen #barra-superior {
+            display: none;
+        }
+        
+        #contenedor-principal:-moz-full-screen #barra-superior {
+            display: none;
+        }
+        
+        #contenedor-principal:-ms-full-screen #barra-superior {
+            display: none;
+        }
 
-/* NUEVA CLASE: Para reducir el espacio superior de la primera sección de contenido */
-.no-top-padding {
-    padding-top: 30px !important; /* Valor reducido para acercar al inicio */
-}
+        /* Ajusta el iframe para que ocupe todo en Fullscreen */
+        #contenedor-principal:fullscreen #visor-web {
+            top: 0;
+            height: 100vh;
+        }
+        
+        #contenedor-principal:-webkit-full-screen #visor-web {
+            top: 0;
+            height: 100vh;
+        }
 
-/* Ajuste de padding y centrado para la primera sección (INICIO) */
-#hub-inicio {
-    /* Ya reducido: 30px arriba, 0px abajo */
-    padding: 30px 5% 0px; 
-    text-align: center;
-    border-bottom: none;
-    /* Necesario para posicionar las imágenes laterales: */
-    display: flex; 
-    flex-direction: column;
-    align-items: center;
-    position: relative; 
-}
-
-/* AJUSTE CLAVE PARA PEGAR LOS TEXTOS: Eliminar el margen vertical de los párrafos en Inicio */
-#hub-inicio p {
-    margin: 5px 0; /* Se reduce el margen vertical a 5px para que se vean más juntos */
-}
-
-
-/* Estilo para la imagen de inicio */
-.inicio-image {
-    max-width: 100%;
-    height: auto;
-    max-height: 180px; 
-    border-radius: 10px;
-    margin-bottom: 10px; 
-    box-shadow: 0 5px 15px var(--shadow-color);
-    object-fit: cover; 
-}
-
-.content-section h2 {
-    font-weight: 300;
-    font-size: 2.5em;
-    letter-spacing: 2px;
-    margin-bottom: 30px; 
-    border-bottom: 2px solid; 
-    display: inline-block;
-    padding-bottom: 5px;
-}
-
-/* Asignación de color a los títulos H2 */
-#herramientas h2 { border-bottom-color: var(--accent-orange); }
-#juegos h2 { border-bottom-color: var(--accent-green); }
-#utilidades h2 { border-bottom-color: var(--accent-purple); }
-
-
-/* --- Estilos de las Tarjetas/Galería (GENERAL: GRID) --- */
-.gallery-container {
-    display: grid; /* Vuelve a Grid para Herramientas y Utilidades */
-    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-    gap: 20px; 
-    max-width: 1400px;
-    margin: 0 auto;
-    padding: 20px 0;
-}
-
-
-.card-link {
-    text-decoration: none;
-    color: var(--text-color);
-}
-
-
-/* --- Clase Específica para el Diseño Masonry (solo para Juegos) --- */
-.masonry-gallery {
-    column-count: 3;
-    column-gap: 20px;
-    max-width: 1400px;
-    margin: 0 auto;
-    padding: 20px 0;
-}
-
-.masonry-gallery .card-link {
-    display: inline-block;
-    width: 100%;
-    margin-bottom: 20px; /* Espacio vertical entre tarjetas en Masonry */
-    break-inside: avoid-column; /* CLAVE para Masonry */
-}
-/* Fin de Masonry Styles */
-
-
-.card {
-    background-color: var(--card-bg);
-    padding: 25px;
-    border-radius: 15px;
-    box-shadow: 0 8px 16px var(--shadow-color);
-    transition: transform 0.3s, box-shadow 0.3s, background-color 0.3s;
-    text-align: left;
-    border-left: 5px solid transparent; 
-    position: relative; 
-    min-height: 120px; 
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    
-    /* FIX del bug: Asegura que el contenido interno no se separe entre columnas */
-    overflow: hidden; 
-}
-
-/* --- Estilos para el LOGO dentro de la tarjeta (REVERTIDO) --- */
-.card-logo-container {
-    max-width: 150px; 
-    height: 50px;
-    margin-bottom: 13px; 
-    border-radius: 10px; /* Estilo que queremos anular en imágenes específicas */
-    display: flex;
-    justify-content: flex-start; 
-    align-items: center;
-    overflow: hidden; 
-}
-
-
-.card-logo-container img {
-    width: auto; 
-    max-width: 100%; 
-    height: 100%; 
-    object-fit: contain; 
-    border-radius: 0; /* Por defecto ya es 0, pero se mantiene */
-}
-    
-
-.card-icon-container { display: none; }
-
-
-.card h3 {
-    font-size: 1.4em;
-    margin-top: 0;
-    margin-bottom: 10px;
-    font-weight: 600;
-}
-
-
-.card p {
-    font-size: 0.9em;
-    color: var(--secondary-text-color);
-    margin: 0;
-}
-
-/* Clases de color para las tarjetas */
-.card-orange { border-left-color: var(--accent-orange); }
-.card-green { border-left-color: var(--accent-green); }
-.card-purple { border-left-color: var(--accent-purple); }
-
-
-.card:hover {
-    transform: translateY(-8px);
-    background-color: var(--card-hover-bg);
-}
-
-/* Efectos hover específicos por color (usando variables de acento) */
-.card-orange:hover { box-shadow: 0 12px 25px var(--shadow-color), 0 0 20px var(--accent-orange); }
-.card-green:hover { box-shadow: 0 12px 25px var(--shadow-color), 0 0 20px var(--accent-green); }
-.card-purple:hover { box-shadow: 0 12px 25px var(--shadow-color), 0 0 20px var(--accent-purple); }
-
-
-/* --- Icono Flotante de Categoría --- */
-.category-icon {
-    position: absolute;
-    top: 15px;
-    right: 15px;
-    font-size: 1.5em;
-    z-index: 10; 
-}
-
-/* Iconos de categoría usan los colores de acento */
-.icon-orange { color: var(--accent-orange); }
-.icon-green { color: var(--accent-green); }
-.icon-purple { color: var(--accent-purple); }
-
-
-/* -------------------------------------- */
-/* --- MEDIA QUERY PARA EL MODO CLARO --- */
-/* -------------------------------------- */
-@media (prefers-color-scheme: light) {
-    :root {
-        /* Colores del Modo Claro */
-        --bg-color: #f0f0f0; 
-        --card-bg: #ffffff; 
-        --text-color: #333333; 
-        --secondary-text-color: #666666; 
-        --shadow-color: rgba(0, 0, 0, 0.15); 
-        --card-hover-bg: #f8f8f8;
-    }
-
-    .navbar {
-        background-color: rgba(255, 255, 255, 0.95); 
-        box-shadow: 0 4px 8px var(--shadow-color);
-    }
-    
-    .content-section {
-        border-bottom: 1px solid #ddd; 
-    }
-
-    #hub-inicio p[style*="994ace"] {
-        color: var(--accent-purple) !important;
-    }
-}
-
-/* --- MEDIA QUERY PARA RESPONSIVE (ARREGLO DE COLUMNAS) --- */
-@media (max-width: 768px) {
-    .masonry-gallery {
-        column-count: 1;
-    }
-    /* Para grid, el auto-fit se encarga, pero para asegurar: */
-    .gallery-container {
-        grid-template-columns: 1fr;
-        gap: 20px;
-    }
-}
-
-
-/* -------------------------------------- */
-/* --- SOLUCION PARA ANULAR BORDER-RADIUS --- */
-/* -------------------------------------- */
-
-/* 1. Anula el redondeo en la imagen misma (por si acaso) */
-.sin-borde-redondo {
-    border-radius: 0 !important;
-}
-
-/* 2. Anula el redondeo en el CONTENEDOR (card-logo-container) que lo aplica realmente */
-.sin-borde-redondo-container {
-    border-radius: 0 !important;
-    overflow: visible !important; /* Asegura que no haya recortes */
-}
-</style>
+    </style>
 </head>
 <body>
-<nav class="navbar">
-<a href="#hub-inicio">Home</a>
-<a href="#herramientas">Herramientas</a>
-<a href="#juegos">Juegos</a>
-<a href="#utilidades">Utilidades</a>
-</nav>
 
-<section id="hub-inicio" class="content-section">
-<img src="https://i.redd.it/i-make-cheeto-icon-v0-5baxdlmee1gf1.png?width=266&format=png&auto=webp&s=bab88fc2527ba6e3e7dcd50687151fb64b6ef5b6" alt="Logo de New Cheto's Club" class="inicio-image">
-<h1>ChetoHub</h1>
-<p style="font-size: 1.2em; color: var(--secondary-text-color);">Una colección de herramientas y juegos hecho por Said.</p>
-<p style="font-size: 1.2em; color: var(--accent-purple);">Selecciona una sección o usa el menú de arriba para navegar.</p>
-</section>
+    <div id="contenedor-principal">
+        
+        <header id="barra-superior">
+            <a href="#" onclick="mostrarInicio(); return false;">🏠 Inicio</a>
+            <a href="https://www.google.com" target="visor-web" onclick="mostrarVisor();">🔍 Ver Google</a>
+            <a href="https://es.wikipedia.org" target="visor-web" onclick="mostrarVisor();">📚 Ver Wikipedia</a>
+            <button onclick="toggleFullscreen()">🔲 Fullscreen</button>
+        </header>
 
-
-<section id="herramientas" class="content-section no-top-padding">
-<h2>Herramientas</h2>
-<div class="gallery-container"> 
-    <a href="https://script.google.com/macros/s/AKfycbwMZy_YHRYbXgD-1yHwVd2bJ9oWXJ2nnmkn6wQAl3RImFzpL9kqJBhAUhH-qnMSYcMx/exec" class="card-link">
-        <div class="card card-orange">
-            <i class="fas fa-wrench category-icon icon-orange"></i>
-            <div class="card-logo-container">
-                <img src="https://icon-library.com/images/youtube-icon-download-for-desktop/youtube-icon-download-for-desktop-17.jpg" alt="Logo Base de Datos"> 
-            </div>
-            <h3>Youtube Downloader (google.com.to)</h3>
-            <p>Convierta los videos de YouTube en formato MP4 en calidad 4K/1080p/720p. Descargas ilimitadas gratuitas sin registro requerido.</p>
+        <div id="contenido-inicio">
+            <h1>Bienvenido</h1>
+            <p>Selecciona un enlace en la barra superior para cargar una página externa.</p>
+            <p>El contenido de esta área se ocultará automáticamente.</p>
         </div>
-    </a>
 
-    <a href="herramientas/htmlifier-offline.html" class="card-link">
-        <div class="card card-orange">
-            <i class="fas fa-wrench category-icon icon-orange"></i>
-            <div class="card-logo-container">
-                <img src="https://avatars.githubusercontent.com/u/22133785?v=4" alt="Logo Analítica"> 
-            </div>
-            <h3>Project HTMLifier</h3>
-            <p>This packages your Scratch project into a single HTML file that can run on its own in a web browser. The HTML file will be pretty big because it contains the entire Scratch engine (2.6 MB) and the costume and sound files used in the project.</p>
-        </div>
-    </a>
+        <iframe 
+            id="visor-web" 
+            name="visor-web" 
+            src="" 
+            allow="fullscreen" 
+            loading="lazy">
+        </iframe>
+        
+    </div>
 
-    <a href="hardware.html" class="card-link">
-        <div class="card card-orange">
-            <i class="fas fa-wrench category-icon icon-orange"></i>
-            <div class="card-logo-container">
-                <img src="https://via.placeholder.com/50/FF9800/FFFFFF?text=HW" alt="Logo Hardware"> 
-            </div>
-            <h3>Ajustes de Sistema</h3>
-            <p>Utilidad para la configuración de bajo nivel del sistema operativo.</p>
-        </div>
-    </a>
+    <script>
+        // Función para mostrar solo el iframe
+        function mostrarVisor() {
+            // Oculta el contenido de inicio
+            document.getElementById('contenido-inicio').classList.add('oculto');
+            
+            // Muestra el iframe
+            document.getElementById('visor-web').style.display = 'block';
+        }
 
-</div>
-</section>
+        // Función para volver al contenido de inicio
+        function mostrarInicio() {
+            // Muestra el contenido de inicio
+            document.getElementById('contenido-inicio').classList.remove('oculto');
+            
+            // Oculta el iframe y limpia su fuente
+            document.getElementById('visor-web').style.display = 'none';
+            document.getElementById('visor-web').src = ''; 
+        }
 
-
-<section id="juegos" class="content-section">
-<h2>Juegos</h2>
-<div class="masonry-gallery"> 
-    <a href="games/EaglercraftX_1.8_WASM-GC_Offline_Download.html" class="card-link">
-        <div class="card card-green">
-            <i class="fas fa-gamepad category-icon icon-green"></i>
-            <div class="card-logo-container">
-                <img src="https://img.itch.zone/aW1nLzE5MjYyODg5LnBuZw==/original/Ba1dl3.png" alt="Logo Minecraft"> 
-            </div>
-            <h3>EaglercraftX (Minecraft 1.8.9 WASM)</h3>
-            <p>Crea todo lo que puedas imaginar, descubre misterios espeluznantes y sobrevive a la noche en el juego de aventura tipo sandbox definitivo. En Minecraft, cada partida es diferente y te esperan aventuras inolvidables a la vuelta de la esquina. Explora y crea tu camino a un mundo infinito al que le puedes dar forma bloque a bloque.
-            </p>
-        </div>
-    </a>
-
-    <a href="https://script.google.com/macros/s/AKfycbx63iRe5mtf5PQGIn_eGwKePxCA1iU6w-YApn57Mh4phi2ZB-G-GCJA1YTV9jKrwoqb/exec" class="card-link">
-        <div class="card card-green">
-            <i class="fas fa-gamepad category-icon icon-green"></i>
-            <div class="card-logo-container">
-                <img src="https://smashkarts.io/images/smashkarts.png" alt="Logosk"> 
-            </div>
-            <h3>Smash Karts</h3>
-            <p>Smash Karts is a free io Multiplayer Kart Battle Arena game. Drive fast. Fire rockets. Make big explosions.</p>
-        </div>
-    </a>
-
-    <a href="nesemulator/nes.html" class="card-link">
-        <div class="card card-green">
-            <i class="fas fa-gamepad category-icon icon-green"></i>
-            <div class="card-logo-container">
-                <img src="https://icon-library.com/images/nes-icon/nes-icon-19.jpg" alt="Logosk"> 
-            </div>
-            <h3>Nes Emulator</h3>
-            <p>Emulador avanzado de NES de código abierto (conocido como Famicom en Japón) basado en jnes. Para jugar se necesita tener descargadas roms de nes.</p>
-        </div>
-    </a>
-
-    <a href="games/Super Mario Bros.html" class="card-link">
-        <div class="card card-green"> 
-            <i class="fas fa-gamepad category-icon icon-green"></i> 
-            <div class="card-logo-container sin-borde-redondo-container">
-                <img class="sin-borde-redondo" src="https://www.nicepng.com/png/full/435-4359574_nes-cartridge-png-super-mario-bros-nes-cart.png" alt="Logo Super Mario Bros"> 
-            </div>
-            <h3>Super Mario Bros</h3>
-            <p>Super Mario es una serie de videojuegos de plataformas creada por Nintendo protagonizada por su mascota, Mario. Es la serie central de la gran franquicia de Mario. Se ha lanzado al menos un juego de Super Mario para todas las principales consolas de videojuegos de Nintendo.</p>
-        </div>
-    </a>
-    
-    <a href="games/cave story/index.html" class="card-link">
-        <div class="card card-green">
-            <i class="fas fa-gamepad category-icon icon-green"></i>
-            <div class="card-logo-container sin-borde-redondo-container">
-                <img class="sin-borde-redondo" src="https://cdn2.steamgriddb.com/icon/9807a1e7fdb9edcc283f59dae4bcdc43.ico" alt="Logosk"> 
-            </div>
-            <h3>Cave Story</h3>
-            <p>Cave Story es un juego de acción de plataformas y disparos.
-            Explora las cuevas hasta llegar al final.
-            También puedes guardar la partida y continuar donde la dejaste.</p>
-        </div>
-    </a>
-
-    
-    <a href="games/Bad Time Simulator (Sans Fight).html" class="card-link">
-        <div class="card card-green">
-            <i class="fas fa-gamepad category-icon icon-green"></i> 
-             <div class="card-logo-container sin-borde-redondo-container">
-                <img src="https://freepngimg.com/save/86331-emoticon-comic-sans-symmetry-undertale-free-download-image/1024x1024" alt="Logo Bad Time Simulator"> 
-            </div>
-            <h3>Bad Time Simulator</h3>
-            <p>do you wanna have a bad time? 'cause if you visit this page... you are REALLY not going to like what happens next.
-</p>
-        </div>
-    </a>
-</div> </section>
-
-<section id="utilidades" class="content-section">
-<h2>Utilidades</h2>
-<div class="gallery-container"> 
-    <a href="https://snail-ide.js.org/" class="card-link">
-        <div class="card card-purple">
-            <i class="fas fa-pen-ruler category-icon icon-purple"></i>
-            <div class="card-logo-container">
-                <img src="https://strifestudio.com/wp-content/uploads/2024/01/logo-1024x1024.jpg" alt="Logo Soporte"> 
-            </div>
-            <h3>Snail (Scratch only editor)</h3>
-            <p>Scratch is a free programming language and online community where you can create your own interactive stories, games, and animations.</p>
-        </div>
-    </a>
-
-    <a href="proximamente" class="card-link">
-        <div class="card card-purple">
-            <i class="fas fa-pen-ruler category-icon icon-purple"></i>
-            <div class="card-logo-container">
-                <img src="https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/png/t3-chat.png" alt="Logo API"> 
-            </div>
-            <h3>SardChat</h3>
-            <p>Un clon de whatsapp web simple. Desarrollado por Said con la planificacion de Wils.</p>
-        </div>
-    </a>
-
-    <a href="nesemulator/roms/index.html" class="card-link">
-        <div class="card card-purple">
-            <i class="fas fa-pen-ruler category-icon icon-purple"></i>
-            <div class="card-logo-container">
-                <img src="https://www.svgrepo.com/show/366573/application-x-nes-rom.svg" alt="Logo Perfil"> 
-            </div>
-            <h3>Nes Roms Download</h3>
-            <p>Download and play Nintendo Entertainment System ROMs free of charge directly on your computer or phone.</p>
-        </div>
-    </a>
-
-</div>
-<div style="height: 50px;"></div> 
-</section>
-
+        // Función para controlar el modo Pantalla Completa
+        function toggleFullscreen() {
+            const contenedor = document.getElementById('contenedor-principal');
+            
+            if (document.fullscreenElement) {
+                // Si ya está en fullscreen, sale
+                document.exitFullscreen();
+            } else {
+                // Entra en fullscreen
+                contenedor.requestFullscreen().catch(err => {
+                    console.error(`Error al intentar habilitar Fullscreen: ${err.message}`);
+                    alert("Tu navegador bloqueó el modo Pantalla Completa.");
+                });
+            }
+        }
+    </script>
 
 </body>
 </html>
