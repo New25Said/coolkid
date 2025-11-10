@@ -129,7 +129,6 @@ body {
 .card-link {
     text-decoration: none;
     color: var(--text-color);
-    margin-bottom: 0; /* Ya no es necesario si gallery-container es grid, pero lo dejamos a 0 por seguridad */
 }
 
 
@@ -273,9 +272,13 @@ body {
 
 /* --- MEDIA QUERY PARA RESPONSIVE (ARREGLO DE COLUMNAS) --- */
 @media (max-width: 768px) {
-    .masonry-gallery, .gallery-container { /* Aplicamos la columna única a ambas clases */
+    .masonry-gallery {
         column-count: 1;
-        /* Si es grid, el auto-fit se encargará, pero lo forzamos para masonry */
+    }
+    /* Para grid, el auto-fit se encarga, pero para asegurar: */
+    .gallery-container {
+        grid-template-columns: 1fr;
+        gap: 20px;
     }
 }
 </style>
@@ -310,8 +313,6 @@ body {
 </a>
 
 <a href="analitica.html" class="card-link">
-<div class="card card-orange">
-<i class="fas fa-wrench category-icon icon-orange"></i>
 <div class="card card-orange">
 <i class="fas fa-wrench category-icon icon-orange"></i>
 <div class="card-logo-container">
