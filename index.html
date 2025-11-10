@@ -145,15 +145,18 @@ body:-ms-full-screen #visor-web {
 /* FIN DE ESTILOS PARA LA LÓGICA DE VISOR */
 
 /* -------------------------------------- */
-/* --- A partir de aquí, tus estilos originales --- */
+/* --- A partir de aquí, tus estilos originales (ajustados para trabajar con visor-wrapper) --- */
 /* -------------------------------------- */
 
 .content-section {
     padding: 60px 5% 30px; 
     border-bottom: 1px solid #333; 
+    /* Este padding-top es para todas las secciones que no son la de inicio */
     padding-top: 100px; 
 }
+/* ... [resto de tus estilos originales] ... */
 
+/* [Tus estilos originales continúan aquí, ej.] */
 .no-top-padding {
     padding-top: 30px !important; 
 }
@@ -384,12 +387,10 @@ body:-ms-full-screen #visor-web {
         <section id="herramientas" class="content-section no-top-padding">
             <h2>Herramientas</h2>
             <div class="gallery-container"> 
-                
                 <a href="https://script.google.com/macros/s/AKfycbwMZy_YHRYbXgD-1yHwVd2bJ9oWXJ2nnmkn6wQAl3RImFzpL9kqJBhAUhH-qnMSYcMx/exec" 
                    class="card-link" 
                    target="visor-web" 
-                   onclick="mostrarVisor(); return false;"> 
-                    <div class="card card-orange">
+                   onclick="mostrarVisor(); return false;"> <div class="card card-orange">
                         <i class="fas fa-wrench category-icon icon-orange"></i>
                         <div class="card-logo-container">
                             <img src="https://icon-library.com/images/youtube-icon-download-for-desktop/youtube-icon-download-for-desktop-17.jpg" alt="Logo Base de Datos"> 
@@ -398,6 +399,7 @@ body:-ms-full-screen #visor-web {
                         <p>Convierta los videos de YouTube en formato MP4 en calidad 4K/1080p/720p. Descargas ilimitadas gratuitas sin registro requerido.</p>
                     </div>
                 </a>
+
                 <a href="herramientas/htmlifier-offline.html" class="card-link">
                     <div class="card card-orange">
                         <i class="fas fa-wrench category-icon icon-orange"></i>
