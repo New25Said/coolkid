@@ -23,8 +23,7 @@
     --accent-orange: #ff9800; /* Herramientas */
     --accent-green: #4CAF50; /* Juegos */
     --accent-purple: #9c27b0; /* Utilidades */
-    /* VARIABLE PARA JUEGOS ESPECÍFICOS (MARIO/SPACE INVADERS) */
-    --accent-red: #f44336; /* Rojo */
+    /* VARIABLE PARA JUEGOS ESPECÍFICOS (SE ELIMINÓ EL ROJO) */
 }
 
 
@@ -213,8 +212,6 @@ body {
 .card-orange { border-left-color: var(--accent-orange); }
 .card-green { border-left-color: var(--accent-green); }
 .card-purple { border-left-color: var(--accent-purple); }
-/* CLASE ROJA */
-.card-red { border-left-color: var(--accent-red); }
 
 
 .card:hover {
@@ -226,8 +223,6 @@ body {
 .card-orange:hover { box-shadow: 0 12px 25px var(--shadow-color), 0 0 20px var(--accent-orange); }
 .card-green:hover { box-shadow: 0 12px 25px var(--shadow-color), 0 0 20px var(--accent-green); }
 .card-purple:hover { box-shadow: 0 12px 25px var(--shadow-color), 0 0 20px var(--accent-purple); }
-/* HOVER ROJO */
-.card-red:hover { box-shadow: 0 12px 25px var(--shadow-color), 0 0 20px var(--accent-red); }
 
 
 /* --- Icono Flotante de Categoría --- */
@@ -243,8 +238,6 @@ body {
 .icon-orange { color: var(--accent-orange); }
 .icon-green { color: var(--accent-green); }
 .icon-purple { color: var(--accent-purple); }
-/* ICONO ROJO */
-.icon-red { color: var(--accent-red); }
 
 
 /* -------------------------------------- */
@@ -398,9 +391,7 @@ body {
     </a>
 
     <a href="games/Super Mario Bros.html" class="card-link">
-        <div class="card card-red">
-            <i class="fas fa-ghost category-icon icon-red"></i>
-            <div class="card-logo-container sin-borde-redondo-container">
+        <div class="card card-green"> <i class="fas fa-gamepad category-icon icon-green"></i> <div class="card-logo-container sin-borde-redondo-container">
                 <img class="sin-borde-redondo" src="https://www.nicepng.com/png/full/435-4359574_nes-cartridge-png-super-mario-bros-nes-cart.png" alt="Logo Super Mario Bros"> 
             </div>
             <h3>Super Mario Bros</h3>
@@ -424,7 +415,7 @@ body {
     
     <a href="games/Bad Time Simulator (Sans Fight).html" class="card-link">
         <div class="card card-green">
-            <i class="fas fa-skull category-icon icon-green"></i> <div class="card-logo-container sin-borde-redondo-container">
+            <i class="fas fa-gamepad category-icon icon-green"></i> <div class="card-logo-container sin-borde-redondo-container">
                 <img src="https://freepngimg.com/save/86331-emoticon-comic-sans-symmetry-undertale-free-download-image/1024x1024" alt="Logo Bad Time Simulator"> 
             </div>
             <h3>Bad Time Simulator</h3>
