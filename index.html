@@ -115,23 +115,25 @@ body {
 #utilidades h2 { border-bottom-color: var(--accent-purple); }
 
 
-/* --- Estilos de las Tarjetas/Galería --- */
+/* --- Estilos de las Tarjetas/Galería (Masonry FIX) --- */
 .gallery-container {
-    /* Eliminamos 'display: grid' y usamos el diseño de columnas para Masonry */
-    column-count: 3; /* Intenta mostrar 3 columnas */
-    column-gap: 20px; /* Espacio entre columnas */
+    /* CAMBIO CLAVE: Usamos column-count para crear un efecto de mampostería (masonry) */
+    column-count: 3; /* Intenta mostrar 3 columnas si hay espacio */
+    column-gap: 20px; /* El espacio entre las columnas */
     max-width: 1400px;
     margin: 0 auto;
     padding: 20px 0;
 }
 
 
-/* --- MEDIA QUERY PARA RESPONSIVE (al final del CSS) --- */
-@media (max-width: 768px) {
-    .gallery-container {
-        /* En pantallas pequeñas, solo queremos 1 columna */
-        column-count: 1;
-    }
+.card-link {
+    text-decoration: none;
+    color: var(--text-color);
+    /* Estas 3 líneas son cruciales para el Masonry: */
+    display: inline-block; 
+    width: 100%; 
+    margin-bottom: 20px; 
+    break-inside: avoid-column; /* CLAVE: Evita que la tarjeta se rompa y elimina el hueco */
 }
 
 
@@ -148,29 +150,29 @@ body {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
+    
+    /* FIX del bug: Asegura que el contenido interno no se separe entre columnas */
+    overflow: hidden; 
 }
 
 /* --- Estilos para el LOGO dentro de la tarjeta --- */
 .card-logo-container {
-    max-width: 150px; /* Asegura que no sea más ancho de lo necesario */
+    max-width: 150px; 
     height: 50px;
     margin-bottom: 13px; 
     border-radius: 10px; 
     display: flex;
-    justify-content: flex-start; /* AJUSTE: alinear el logo a la izquierda dentro de su contenedor */
+    justify-content: flex-start; 
     align-items: center;
-    /* AJUSTE CLAVE: Eliminado background-color y padding */
-    /* background-color: rgba(255, 255, 255, 0.05); */ 
-    /* padding: 5px; */ 
     overflow: hidden; 
 }
 
 .card-logo-container img {
-    width: auto; /* Permite que la imagen use su ancho natural o se adapte */
-    max-width: 100%; /* Asegura que no se salga del contenedor de 150px */
-    height: 100%; /* Mantiene la altura fija de 50px */
+    width: auto; 
+    max-width: 100%; 
+    height: 100%; 
     object-fit: contain; 
-    border-radius: 0; /* AJUSTE: eliminé el border-radius de la imagen, ya que el contenedor ya lo maneja */
+    border-radius: 0; 
 }
 
 
@@ -249,11 +251,14 @@ body {
     #hub-inicio p[style*="994ace"] {
         color: var(--accent-purple) !important;
     }
+}
 
-    /* AJUSTE CLAVE: Eliminado background-color para modo claro también */
-    /* .card-logo-container {
-        background-color: rgba(0, 0, 0, 0.05); 
-    } */
+/* --- MEDIA QUERY PARA RESPONSIVE (ARREGLO DE COLUMNAS) --- */
+@media (max-width: 768px) {
+    .gallery-container {
+        /* En pantallas pequeñas, solo queremos 1 columna */
+        column-count: 1;
+    }
 }
 </style>
 </head>
@@ -356,7 +361,7 @@ body {
 <div class="card card-green">
 <i class="fas fa-gamepad category-icon icon-green"></i>
 <div class="card-logo-container">
-<img src="https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/bc2a2cbe-29f7-464d-8396-131bdd4ccd3f/d1z383r-576b2bd1-4670-429a-8775-389c7d64b8ad.png?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7InBhdGgiOiIvZi9iYzJhMmNiZS0yOWY3LTQ2NGQtODM5Ni0xMzFiZGQ0Y2NkM2YvZDF6Mzgzci01NzZiMmJkMS00NjcwLTQyOWEtODc3NS0zODljN2Q2NGI4YWQucG5nIn1dXSwiYXVkIjpbInVybjpzZXJ2aWNlOmZpbGUuZG93bmxvYWQiXX0.4LdsRjlpbDNOVUjtZcyHOdIIzUT8N8cIy6Zh1uSLmGk" alt="Logosk"> 
+<img src="https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/bc2a2cbe-29f7-464d-8396-131bdd4ccd3f/d1z383r-576b2bd1-4670-429a-8775-389c7d64b8ad.png?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7InBhdGgiOiIvZi9iYzJhMmNiZS0yOWY3LTQ2NGQtODM5Ni0xMzFiZGQ0Y2NkM2YvZDF6Mzgzci01NzZiMmJkMS00NjcwLTQyOWEtODc3NS0zODljN2Q2NGI4YWQucG5nIn1dXSwiYXVkIjpbInVybjpzZXJ2aWNlOmZpbGUuZG93bmxvYWQiXX0.4LdsRjlpbDNOVUjtZcyHOdIIzUT8N8cIy6Zh1uSLGk" alt="Logosk"> 
 </div>
 <h3>Cave Story</h3>
 <p>Cave Story es un juego de acción de plataformas y disparos.
