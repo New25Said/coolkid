@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NES Classics ROMS</title>
+    <style>
+        /* -------------------------------------- */
+        /* 1. Variables de Color (Dark Mode Principal) */
+        /* -------------------------------------- */
+        :root {
+            /* Colores principales para Modo Oscuro */
+            --bg-color: #121212; /* Fondo ultra oscuro */
+            --container-bg: #1f1f1f; /* Contenedor oscuro */
+            --text-color: #e0e0e0; /* Texto claro */
+            --accent-color: #00bcd4; /* Cian Eléctrico (Moderno) */
+            --link-color: #00bcd4; /* Enlaces en color de acento */
+            --border-color: #333333; /* Separadores sutiles */
+            --shadow-color: rgba(0, 0, 0, 0.5);
+            --hover-bg: #2c2c2c;
+        }
+
+        /* -------------------------------------- */
+        /* 2. Media Query para Light Mode (Alternativa) */
+        /* -------------------------------------- */
+        @media (prefers-color-scheme: light) {
+            :root {
+                --bg-color: #ffffff;
+                --container-bg: #f4f4f4;
+                --text-color: #333333;
+                --accent-color: #1a73e8; /* Azul profesional */
+                --link-color: #1a73e8;
+                --border-color: #e0e0e0;
+                --shadow-color: rgba(0, 0, 0, 0.1);
+                --hover-bg: #e9e9e9;
+            }
+        }
+
+        /* -------------------------------------- */
+        /* 3. Estilos Globales y de Elementos */
+        /* -------------------------------------- */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* Tipografía moderna */
+            margin: 0;
+            padding: 30px;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            transition: background-color 0.4s, color 0.4s;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0px auto;
+            background: var(--container-bg);
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px var(--shadow-color); /* Sombra marcada */
+        }
+        h1 {
+            color: var(--accent-color);
+            text-align: center;
+            border-bottom: 2px solid var(--border-color);
+            padding-bottom: 20px;
+            margin-bottom: 30px;
+            font-size: 2em;
+            font-weight: 300; /* Fuente más ligera para un look moderno */
+        }
+
+        /* Lista de Archivos (Diseño Limpio) */
+        #file-list {
+            list-style: none;
+            padding: 0;
+        }
+        #file-list li {
+            border-bottom: 1px solid var(--border-color);
+            transition: background-color 0.2s;
+        }
+        #file-list li:last-child {
+            border-bottom: none;
+        }
+        #file-list a {
+            text-decoration: none;
+            color: var(--text-color); /* El nombre del archivo es sutil, el acento va en el ícono */
+            display: flex;
+            align-items: center;
+            padding: 12px 15px;
+            font-weight: 500;
+            border-left: 5px solid transparent; /* Línea de acento a la izquierda */
+            transition: all 0.2s;
+        }
+        #file-list a:hover {
+            background-color: var(--hover-bg);
+            border-left: 5px solid var(--accent-color); /* Muestra el acento al hacer hover */
+            color: var(--text-color);
+        }
+
+        /* Íconos y Mensajes */
+        .file-icon {
+            margin-right: 15px;
+            font-size: 1.3em;
+            color: var(--accent-color); /* Íconos resaltados */
+            min-width: 30px; /* Asegura el espaciado */
+            text-align: center;
+        }
+        .loading {
+            text-align: center;
+            font-size: 1.1em;
+            color: var(--accent-color);
+            padding: 30px;
+            font-style: italic;
+        }
+        p {
+            text-align: center;
+            color: var(--text-color);
+            opacity: 0.6;
+            margin-top: 40px;
+            font-size: 0.9em;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>🕹️ ROMs de Nintendo Entertainment System (NES) para Descargar 🕹️</h1>
+        
+        <ul id="file-list">
+            <li class="loading">Cargando archivos...</li>
+        </ul>
+        
+        <p>Solo se mostrarán archivos.</p>
+    </div>
+
+    <script>
+        // *****************************************************************
+        // *** CONFIGURACIÓN ADAPTADA PARA New25Said/coolkid/main          ***
+        // *****************************************************************
+        const GITHUB_USERNAME = "New25Said"; 
+        const REPO_NAME = "coolkid"; 
+        const REPO_BRANCH = "main"; // Confirma que 'main' es tu rama de publicación de Pages.
+        const PATH_TO_BROWSE = "nesemulator/roms/"; // Ruta dentro del repo donde está este archivo.
+        // *****************************************************************
+
+        const API_URL = `https://api.github.com/repos/${GITHUB_USERNAME}/${REPO_NAME}/contents/${PATH_TO_BROWSE}`;
+        const RAW_URL_BASE = `https://raw.githubusercontent.com/${GITHUB_USERNAME}/${REPO_NAME}/${REPO_BRANCH}/${PATH_TO_BROWSE}`;
+
+        document.addEventListener('DOMContentLoaded', () => {
+            fetchFileList();
+        });
+
+        function fetchFileList() {
+            const listElement = document.getElementById('file-list');
+            listElement.innerHTML = '<li class="loading">Cargando archivos...</li>';
+            
+            fetch(API_URL)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error(`Error ${response.status}: Asegúrese de que la ruta y la rama sean correctas.`);
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    listElement.innerHTML = ''; // Limpiar el mensaje de carga
+                    
+                    data.forEach(item => {
+                        // Solo procesar archivos
+                        if (item.type === 'file' && item.name !== 'browser.html') {
+                            const listItem = document.createElement('li');
+                            
+                            // El atributo 'download' fuerza al navegador a descargar
+                            const link = document.createElement('a');
+                            link.href = RAW_URL_BASE + item.name; // Usar la URL RAW para la descarga directa
+                            link.download = item.name; // Sugiere el nombre de archivo para la descarga
+                            
+                            // Añadir un ícono simple
+                            const icon = getFileIcon(item.name);
+                            link.innerHTML = `<span class="file-icon">${icon}</span>${item.name}`;
+                            
+                            listItem.appendChild(link);
+                            listElement.appendChild(listItem);
+                        }
+                    });
+                    
+                    if (listElement.children.length === 0) {
+                        listElement.innerHTML = '<li class="loading">No se encontraron archivos descargables en esta carpeta.</li>';
+                    }
+                })
+                .catch(error => {
+                    console.error('Error al obtener la lista de archivos:', error);
+                    listElement.innerHTML = `<li style="color: var(--accent-color); padding: 20px;">🚨 ¡Error al cargar archivos! ${error.message}</li>`;
+                });
+        }
+        
+        // Función simple para iconos
+        function getFileIcon(fileName) {
+            const extension = fileName.split('.').pop().toLowerCase();
+            switch (extension) {
+                case 'nes': return '🎮'; // Icono para ROMs de NES
+                case 'zip':
+                case 'rar': return '📦';
+                case 'pdf': return '📄';
+                case 'jpg':
+                case 'png':
+                case 'gif': return '🖼️';
+                default: return '📎';
+            }
+        }
+    </script>
+</body>
+</html>
