@@ -23,7 +23,6 @@
     --accent-orange: #ff9800; /* Herramientas */
     --accent-green: #4CAF50; /* Juegos */
     --accent-purple: #9c27b0; /* Utilidades */
-    /* VARIABLE PARA JUEGOS ESPECÍFICOS (SE ELIMINÓ EL ROJO) */
 }
 
 
@@ -72,13 +71,19 @@ body {
 .content-section {
     padding: 60px 5% 30px; 
     border-bottom: 1px solid #333; 
+    /* Este padding-top es para todas las secciones que no son la de inicio */
     padding-top: 100px; 
+}
+
+/* NUEVA CLASE: Para reducir el espacio superior de la primera sección de contenido */
+.no-top-padding {
+    padding-top: 30px !important; /* Valor reducido para acercar al inicio */
 }
 
 /* Ajuste de padding y centrado para la primera sección (INICIO) */
 #hub-inicio {
-    /* AJUSTE CLAVE: 80px arriba (baja el contenido), 5px abajo (elimina el espacio extra). */
-    padding: 80px 5% 5px; 
+    /* Ya reducido: 30px arriba, 0px abajo */
+    padding: 30px 5% 0px; 
     text-align: center;
     border-bottom: none;
     /* Necesario para posicionar las imágenes laterales: */
@@ -95,7 +100,7 @@ body {
     height: auto;
     max-height: 180px; 
     border-radius: 10px;
-    margin-bottom: 20px; 
+    margin-bottom: 10px; 
     box-shadow: 0 5px 15px var(--shadow-color);
     object-fit: cover; 
 }
@@ -313,7 +318,7 @@ body {
 </section>
 
 
-<section id="herramientas" class="content-section">
+<section id="herramientas" class="content-section no-top-padding">
 <h2>Herramientas</h2>
 <div class="gallery-container"> 
     <a href="https://script.google.com/macros/s/AKfycbwMZy_YHRYbXgD-1yHwVd2bJ9oWXJ2nnmkn6wQAl3RImFzpL9kqJBhAUhH-qnMSYcMx/exec" class="card-link">
@@ -391,7 +396,9 @@ body {
     </a>
 
     <a href="games/Super Mario Bros.html" class="card-link">
-        <div class="card card-green"> <i class="fas fa-gamepad category-icon icon-green"></i> <div class="card-logo-container sin-borde-redondo-container">
+        <div class="card card-green"> 
+            <i class="fas fa-gamepad category-icon icon-green"></i> 
+            <div class="card-logo-container sin-borde-redondo-container">
                 <img class="sin-borde-redondo" src="https://www.nicepng.com/png/full/435-4359574_nes-cartridge-png-super-mario-bros-nes-cart.png" alt="Logo Super Mario Bros"> 
             </div>
             <h3>Super Mario Bros</h3>
@@ -415,7 +422,8 @@ body {
     
     <a href="games/Bad Time Simulator (Sans Fight).html" class="card-link">
         <div class="card card-green">
-            <i class="fas fa-gamepad category-icon icon-green"></i> <div class="card-logo-container sin-borde-redondo-container">
+            <i class="fas fa-gamepad category-icon icon-green"></i> 
+             <div class="card-logo-container sin-borde-redondo-container">
                 <img src="https://freepngimg.com/save/86331-emoticon-comic-sans-symmetry-undertale-free-download-image/1024x1024" alt="Logo Bad Time Simulator"> 
             </div>
             <h3>Bad Time Simulator</h3>
