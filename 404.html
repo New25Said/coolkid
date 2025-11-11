@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>eo sal de aki weon</title>
+    <title>404 | Página Ekivocada</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -13,7 +13,7 @@
             justify-content: center;
             min-height: 100vh;
             margin: 0;
-            background-color: #f0f0f0;
+            background-color: #f0f0f0; /* Fondo gris claro */
             padding: 20px;
         }
 
@@ -24,64 +24,83 @@
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
             display: flex;
             flex-direction: column;
-            gap: 20px;
+            gap: 20px; /* Espacio entre los bloques */
             width: 100%;
-            max-width: 500px;
+            max-width: 600px; /* Ancho más grande para mejor diseño */
             text-align: center;
         }
-
-        h1 {
-            color: #cc0000;
-            font-size: 3em;
-            margin-bottom: 5px;
-        }
-
-        .title-block {
-            /* Simula el primer campo de texto de tu boceto */
-            padding: 10px;
-            background-color: #f7f7f7;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            font-size: 1.2em;
-            color: #cc0000;
+        
+        /* 1. Título principal grande, rojo y alineado a la izquierda */
+        .main-title {
+            color: #cc0000; /* Rojo vibrante */
+            font-size: 2.8em; 
             font-weight: bold;
-        }
-
-        .image-placeholder {
+            line-height: 1.1;
+            margin: 0 0 25px 0; /* Espacio inferior */
+            text-align: left;
             width: 100%;
-            height: 200px;
-            background-color: #e0e0e0;
-            border: 1px solid #bbb;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #888;
-            font-size: 1.5em;
-            border-radius: 5px;
         }
 
-        .message-block {
-            /* Simula el textarea de tu boceto, ahora con tu mensaje */
-            padding: 15px;
-            min-height: 80px;
-            background-color: #f7f7f7;
-            border: 1px solid #ddd;
+        /* 2. Bloque superior (el que era el 'title-block') */
+        .message-block-top {
+            background-color: #f8d7da; /* Fondo rosado/rojo claro (como bootstrap danger alert) */
+            color: #721c24; /* Texto rojo oscuro */
+            border: 1px solid #f5c6cb;
             border-radius: 5px;
-            color: #555;
-            text-align: center; /* Centramos el texto para tu mensaje */
+            padding: 15px;
+            font-size: 1.1em;
+            text-align: left; /* Alineado a la izquierda */
         }
         
+        /* 3. Contenedor de la Imagen */
+        .image-container {
+            width: 100%;
+            /* Eliminamos el background-color y el padding para que la imagen domine */
+            display: flex;
+            justify-content: center; /* Centra la imagen */
+            align-items: center;
+            border-radius: 5px;
+            overflow: hidden;
+            box-sizing: border-box;
+        }
+
+        .image-container img {
+            max-width: 100%; /* Asegura que la imagen no se desborde */
+            height: auto;
+            display: block;
+            border: 2px solid #333; /* Borde oscuro como en tu boceto */
+            border-radius: 5px;
+            /* El max-width está limitado por el .container (600px) */
+        }
+
+        /* 4. Bloque inferior (el que era el 'message-block') */
+        .message-block-bottom {
+            background-color: #f7f7f7;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 15px;
+            color: #555;
+            text-align: center;
+        }
+        
+        .url-display {
+            font-family: monospace;
+            color: #888;
+            font-size: 0.9em;
+        }
+
+        /* 5. Botón más grande y visible */
         .home-button {
-            /* Simula el botón de tu boceto */
             background-color: #007bff;
             color: white;
-            padding: 12px 20px;
+            padding: 15px 25px; /* Más grande */
             border: none;
             border-radius: 5px;
             cursor: pointer;
-            font-size: 1.1em;
+            font-size: 1.2em; /* Texto más grande */
             text-decoration: none; 
             display: block;
+            margin-top: 25px; /* Más espacio antes del botón */
             transition: background-color 0.3s ease;
         }
 
@@ -93,22 +112,24 @@
 <body>
     <div class="container">
         
-        <h1>Pagina Ekivocada o Erronea (fuera de aki)</h1>
-        
-        <div class="title-block">
+        <h1 class="main-title">
+            Página Ekivocada o <br>Errónea (fuera de aki)
+        </h1>
+
+        <div class="message-block-top">
             Perate bro, toy viendo ahorita la pagina... bueno parece que puede demorar como de 1 a 3 dias en solucionar, bueno bai.
         </div>
 
-        <div class="image-placeholder">
-        <img src="/me van a funar.jpeg" alt="Imagen de error 404">
+        <div class="image-container">
+            <img src="/me van a funar.jpeg" alt="Imagen de error 404">
         </div>
 
-        <div class="message-block">
-            <p style="font-size: 1.2em; font-weight: bold;">
+        <div class="message-block-bottom">
+            <p style="font-size: 1.2em; font-weight: bold; margin: 0;">
                 Parece que esto se está actualizando o no existe (todavía). ¡Toca esperar! :D
             </p>
-            <p style="font-size: 0.9em; margin-top: 10px;">
-                La URL <span style="font-family: monospace; color: #888;"><script>document.write(document.location.pathname)</script></span> no está disponible.
+            <p style="margin-top: 10px;" class="url-display">
+                La URL <script>document.write(document.location.pathname)</script> no está disponible.
             </p>
         </div>
 
