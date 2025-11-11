@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>¡Próximamente! | Estamos Construyendo</title>
+    <style>
+        /* Variables CSS para colores base */
+        :root {
+            /* Colores por defecto para tema claro */
+            --bg-color: #f8f9fa; 
+            --text-color: #343a40; 
+            --primary-color: #17a2b8; /* Azul/Cian para "Próximamente" */
+            --success-color: #28a745; /* Verde para acción principal */
+            --card-bg: #ffffff; 
+            --card-shadow: 0 5px 15px rgba(0, 0, 0, 0.08); 
+            --border-color: #e9ecef; 
+            --message-bg: #e2e3e5; 
+        }
+
+        /* Colores para tema oscuro */
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --bg-color: #212529; 
+                --text-color: #f8f9fa; 
+                --primary-color: #5bc0de; /* Cian más claro para oscuro */
+                --success-color: #4cdb64; 
+                --card-bg: #343a40; 
+                --card-shadow: 0 5px 15px rgba(0, 0, 0, 0.25);
+                --border-color: #495057;
+                --message-bg: #495057;
+            }
+        }
+
+        body {
+            font-family: 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            margin: 0;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            padding: 20px;
+            box-sizing: border-box;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        .container {
+            background-color: var(--card-bg);
+            padding: 40px; 
+            border-radius: 12px; 
+            box-shadow: var(--card-shadow);
+            display: flex;
+            flex-direction: column;
+            gap: 25px; 
+            width: 100%;
+            max-width: 600px;
+            text-align: center;
+            transition: background-color 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .main-title {
+            color: var(--primary-color); /* Color de "Próximamente" */
+            font-size: 3em; 
+            font-weight: 700; 
+            line-height: 1.1;
+            margin: 0 0 15px 0;
+            text-align: center; 
+        }
+        
+        .header-block {
+            padding-bottom: 15px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .subtitle {
+            font-size: 1.2em;
+            color: var(--text-color);
+            margin-top: 10px;
+            line-height: 1.4;
+        }
+
+        /* Bloque superior con fondo de alerta informativo */
+        .message-block-top {
+            background-color: rgba(23, 162, 184, 0.1); /* Fondo cian muy claro */
+            color: var(--primary-color);
+            border: 1px solid rgba(23, 162, 184, 0.5);
+            border-radius: 5px;
+            padding: 15px;
+            font-size: 1.1em;
+            text-align: left;
+            font-weight: 600;
+        }
+
+        .image-container {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 15px 0;
+        }
+
+        .image-container img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+            border-radius: 8px;
+            border: 1px solid var(--border-color); 
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .message-block-bottom {
+            background-color: var(--message-bg); 
+            border-radius: 8px;
+            padding: 20px;
+            color: var(--text-color);
+            font-size: 1.1em;
+            line-height: 1.5;
+            text-align: center;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+        
+        .url-display {
+            font-family: 'Fira Code', monospace;
+            color: var(--success-color); /* Verde de éxito */
+            font-size: 0.9em;
+            background-color: rgba(40, 167, 69, 0.1);
+            padding: 3px 6px;
+            border-radius: 4px;
+            display: inline-block;
+        }
+
+        .subscribe-button { /* Renombrado a subscribe-button */
+            background-color: var(--success-color); /* Verde de "listo/acción" */
+            color: white;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 8px; 
+            cursor: pointer;
+            font-size: 1.2em;
+            font-weight: 600; 
+            text-decoration: none; 
+            display: inline-block; 
+            margin-top: 20px;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+
+        .subscribe-button:hover {
+            background-color: #1e7e34; 
+            transform: translateY(-2px); 
+        }
+        @media (prefers-color-scheme: dark) {
+            .subscribe-button:hover { background-color: #3b9e4d; }
+        }
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        
+        <div class="header-block">
+            <h1 class="main-title">¡PRÓXIMAMENTE!</h1>
+            <p class="subtitle">Estamos preparando algo increíble para ti. Vuelve pronto.</p>
+        </div>
+
+        <div class="message-block-top">
+            <p>La nueva página/característica se lanzará en **3 días** (estimado). ¡Estamos finalizando los detalles!</p>
+        </div>
+
+        <div class="image-container">
+            <img src="/me van a funar.jpeg" alt="Imagen de persona sorprendida con herramienta/bomba, indicando apuro">
+        </div>
+
+        <div class="message-block-bottom">
+            <p style="font-weight: bold; margin-bottom: 10px;">
+                ¡El lanzamiento será épico!
+            </p>
+            <p>
+                Recibe una notificación cuando estemos listos:
+            </p>
+        </div>
+
+        <a href="#suscripcion" class="subscribe-button">
+            Avísame del Lanzamiento
+        </a>
+    </div>
+</body>
+</html>
