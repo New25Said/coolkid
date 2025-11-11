@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ups!</title>
+    <title>¡Error 404! Actualizando o No Encontrado</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -24,29 +24,32 @@
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
             display: flex;
             flex-direction: column;
-            gap: 20px; /* Espacio entre los elementos */
+            gap: 20px;
             width: 100%;
             max-width: 500px;
+            text-align: center;
         }
 
-        input[type="text"],
-        textarea {
-            width: calc(100% - 20px); /* Ajuste para padding */
+        h1 {
+            color: #cc0000;
+            font-size: 3em;
+            margin-bottom: 5px;
+        }
+
+        .title-block {
+            /* Simula el primer campo de texto de tu boceto */
             padding: 10px;
-            border: 1px solid #ccc;
+            background-color: #f7f7f7;
+            border: 1px solid #ddd;
             border-radius: 5px;
-            font-size: 1em;
-            box-sizing: border-box; /* Incluir padding y borde en el ancho */
-        }
-
-        textarea {
-            resize: vertical; /* Permite redimensionar verticalmente */
-            min-height: 80px;
+            font-size: 1.2em;
+            color: #cc0000;
+            font-weight: bold;
         }
 
         .image-placeholder {
             width: 100%;
-            height: 200px; /* Altura fija para la imagen */
+            height: 200px;
             background-color: #e0e0e0;
             border: 1px solid #bbb;
             display: flex;
@@ -55,16 +58,21 @@
             color: #888;
             font-size: 1.5em;
             border-radius: 5px;
-            overflow: hidden; /* Asegura que la imagen no se desborde */
         }
 
-        .image-placeholder img {
-            max-width: 100%;
-            max-height: 100%;
-            object-fit: contain; /* Ajusta la imagen dentro del contenedor sin recortarla */
+        .message-block {
+            /* Simula el textarea de tu boceto, ahora con tu mensaje */
+            padding: 15px;
+            min-height: 80px;
+            background-color: #f7f7f7;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            color: #555;
+            text-align: center; /* Centramos el texto para tu mensaje */
         }
-
-        button {
+        
+        .home-button {
+            /* Simula el botón de tu boceto */
             background-color: #007bff;
             color: white;
             padding: 12px 20px;
@@ -72,25 +80,41 @@
             border-radius: 5px;
             cursor: pointer;
             font-size: 1.1em;
+            text-decoration: none; 
+            display: block;
             transition: background-color 0.3s ease;
         }
 
-        button:hover {
+        .home-button:hover {
             background-color: #0056b3;
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <input type="text" placeholder="Parece que la pagina esta en mantenimiento, vuelve mas tarde (entre 1 a 3 dias)!">
-
-        <div class="image-placeholder">
-            <img src="https://via.placeholder.com/450x200?text=Tu+Imagen+Aquí" alt="Imagen de ejemplo">
+        
+        <h1>404</h1>
+        
+        <div class="title-block">
+            Página No Encontrada
         </div>
 
-        <textarea placeholder="Debe ser algun error en el codigo, que no exista (todavia) o que se este actualizando"></textarea>
+        <div class="image-placeholder">
+            [Añade aquí una imagen divertida de "espera"]
+        </div>
 
-        <button>Mover / Accionar</button>
+        <div class="message-block">
+            <p style="font-size: 1.2em; font-weight: bold;">
+                Parece que esto se está actualizando o no existe (todavía). ¡Toca esperar! :D
+            </p>
+            <p style="font-size: 0.9em; margin-top: 10px;">
+                La URL <span style="font-family: monospace; color: #888;"><script>document.write(document.location.pathname)</script></span> no está disponible.
+            </p>
+        </div>
+
+        <a href="/" class="home-button">
+            Volver a la Página Principal
+        </a>
     </div>
 </body>
 </html>
