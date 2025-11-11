@@ -3,133 +3,182 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>404 | Página Ekivocada</title>
+    <title>pajina no enkontrada</title>
     <style>
+        /* Variables CSS para colores base */
+        :root {
+            /* Colores por defecto para tema claro */
+            --bg-color: #f8f9fa; /* Fondo muy claro */
+            --text-color: #343a40; /* Texto oscuro */
+            --primary-color: #007bff; /* Azul suave para botón/enlaces */
+            --danger-color: #dc3545; /* Rojo de error más suave */
+            --card-bg: #ffffff; /* Fondo de la tarjeta */
+            --card-shadow: 0 5px 15px rgba(0, 0, 0, 0.08); /* Sombra ligera */
+            --border-color: #e9ecef; /* Borde muy suave */
+            --message-bg: #e2e3e5; /* Fondo del bloque de mensaje */
+        }
+
+        /* Colores para tema oscuro */
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --bg-color: #212529; /* Fondo oscuro */
+                --text-color: #f8f9fa; /* Texto claro */
+                --primary-color: #6daffc; /* Azul más claro para oscuro */
+                --danger-color: #fd7e14; /* Naranja/rojo para oscuro */
+                --card-bg: #343a40; /* Fondo de la tarjeta oscuro */
+                --card-shadow: 0 5px 15px rgba(0, 0, 0, 0.25);
+                --border-color: #495057;
+                --message-bg: #495057;
+            }
+        }
+
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
             min-height: 100vh;
             margin: 0;
-            background-color: #f0f0f0; /* Fondo gris claro */
+            background-color: var(--bg-color);
+            color: var(--text-color);
             padding: 20px;
+            box-sizing: border-box;
+            transition: background-color 0.3s ease, color 0.3s ease; /* Transición suave para cambio de tema */
         }
 
         .container {
-            background-color: #ffffff;
-            padding: 30px;
-            border-radius: 10px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            background-color: var(--card-bg);
+            padding: 40px; /* Más padding para un look más espacioso */
+            border-radius: 12px; /* Bordes más redondeados */
+            box-shadow: var(--card-shadow);
             display: flex;
             flex-direction: column;
-            gap: 20px; /* Espacio entre los bloques */
+            gap: 25px; /* Espacio entre los elementos */
             width: 100%;
-            max-width: 600px; /* Ancho más grande para mejor diseño */
+            max-width: 600px;
             text-align: center;
-        }
-        
-        /* 1. Título principal grande, rojo y alineado a la izquierda */
-        .main-title {
-            color: #cc0000; /* Rojo vibrante */
-            font-size: 2.8em; 
-            font-weight: bold;
-            line-height: 1.1;
-            margin: 0 0 25px 0; /* Espacio inferior */
-            text-align: left;
-            width: 100%;
+            transition: background-color 0.3s ease, box-shadow 0.3s ease;
         }
 
-        /* 2. Bloque superior (el que era el 'title-block') */
-        .message-block-top {
-            background-color: #f8d7da; /* Fondo rosado/rojo claro (como bootstrap danger alert) */
-            color: #721c24; /* Texto rojo oscuro */
-            border: 1px solid #f5c6cb;
-            border-radius: 5px;
-            padding: 15px;
-            font-size: 1.1em;
-            text-align: left; /* Alineado a la izquierda */
+        .main-title {
+            color: var(--danger-color); /* Color de peligro para el título */
+            font-size: 3em; /* Título aún más grande */
+            font-weight: 700; /* Negrita más marcada */
+            line-height: 1.1;
+            margin: 0 0 15px 0; /* Ajuste de margen */
+            text-align: center; /* Centramos el título */
         }
         
-        /* 3. Contenedor de la Imagen */
+        /* Contenedor del título y subtítulo */
+        .header-block {
+            padding-bottom: 15px;
+            border-bottom: 1px solid var(--border-color); /* Separador sutil */
+        }
+
+        .subtitle {
+            font-size: 1.2em;
+            color: var(--text-color);
+            margin-top: 10px;
+            line-height: 1.4;
+        }
+
+        /* Contenedor de la imagen */
         .image-container {
             width: 100%;
-            /* Eliminamos el background-color y el padding para que la imagen domine */
             display: flex;
-            justify-content: center; /* Centra la imagen */
+            justify-content: center;
             align-items: center;
-            border-radius: 5px;
-            overflow: hidden;
-            box-sizing: border-box;
+            padding: 15px 0; /* Padding vertical para separar */
         }
 
         .image-container img {
-            max-width: 100%; /* Asegura que la imagen no se desborde */
+            max-width: 100%;
             height: auto;
             display: block;
-            border: 2px solid #333; /* Borde oscuro como en tu boceto */
-            border-radius: 5px;
-            /* El max-width está limitado por el .container (600px) */
+            border-radius: 8px; /* Bordes redondeados para la imagen */
+            /* Eliminamos el borde oscuro si queremos un look más minimalista, 
+               o lo hacemos sutil con var(--border-color) */
+            border: 1px solid var(--border-color); 
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); /* Sombra suave para la imagen */
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
         }
 
-        /* 4. Bloque inferior (el que era el 'message-block') */
+        /* Bloque de mensaje inferior */
         .message-block-bottom {
-            background-color: #f7f7f7;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            padding: 15px;
-            color: #555;
+            background-color: var(--message-bg); /* Color de fondo para mensaje */
+            border-radius: 8px;
+            padding: 20px;
+            color: var(--text-color);
+            font-size: 1.1em;
+            line-height: 1.5;
             text-align: center;
+            transition: background-color 0.3s ease, color 0.3s ease;
         }
         
-        .url-display {
-            font-family: monospace;
-            color: #888;
-            font-size: 0.9em;
+        .message-block-bottom p {
+            margin: 0 0 10px 0; /* Espacio entre párrafos */
         }
 
-        /* 5. Botón más grande y visible */
+        .url-display {
+            font-family: 'Fira Code', 'Cascadia Code', monospace; /* Fuente mono más moderna */
+            color: var(--primary-color); /* Destacamos la URL con el color primario */
+            font-size: 0.9em;
+            background-color: rgba(0, 123, 255, 0.1); /* Fondo sutil para la URL */
+            padding: 3px 6px;
+            border-radius: 4px;
+            display: inline-block; /* Para que el padding y border-radius funcionen bien */
+        }
+
         .home-button {
-            background-color: #007bff;
+            background-color: var(--primary-color);
             color: white;
-            padding: 15px 25px; /* Más grande */
+            padding: 15px 30px;
             border: none;
-            border-radius: 5px;
+            border-radius: 8px; /* Bordes más redondeados */
             cursor: pointer;
-            font-size: 1.2em; /* Texto más grande */
+            font-size: 1.2em;
+            font-weight: 600; /* Un poco más de negrita */
             text-decoration: none; 
-            display: block;
-            margin-top: 25px; /* Más espacio antes del botón */
-            transition: background-color 0.3s ease;
+            display: inline-block; /* Para centrar el botón con margin: auto */
+            margin-top: 20px;
+            transition: background-color 0.3s ease, transform 0.2s ease;
         }
 
         .home-button:hover {
-            background-color: #0056b3;
+            background-color: darken(var(--primary-color), 10%); /* Efecto hover (no puro CSS, pero se aproxima) */
+            transform: translateY(-2px); /* Pequeño efecto 3D */
         }
+        /* Fallback para darken si el navegador no lo soporta */
+        .home-button:hover { background-color: #0056b3; }
+        @media (prefers-color-scheme: dark) {
+            .home-button:hover { background-color: #4b8de6; } /* Azul más oscuro para oscuro */
+        }
+
     </style>
 </head>
 <body>
     <div class="container">
         
-        <h1 class="main-title">
-            Página Ekivocada o <br>Errónea (fuera de aki)
-        </h1>
+        <div class="header-block">
+            <h1 class="main-title">404</h1>
+            <p class="subtitle">Página Equivocada o Errónea (fuera de aquí)</p>
+        </div>
 
         <div class="message-block-top">
-            Perate bro, toy viendo ahorita la pagina... bueno parece que puede demorar como de 1 a 3 dias en solucionar, bueno bai.
+            <p>Perate bro, estoy revisando la página... parece que puede demorar como de 1 a 3 días en solucionar, bueno bai.</p>
         </div>
 
         <div class="image-container">
-            <img src="/me van a funar.jpeg" alt="Imagen de error 404">
+            <img src="/me van a funar.jpeg" alt="Imagen de error, persona sorprendida con una bomba">
         </div>
 
         <div class="message-block-bottom">
-            <p style="font-size: 1.2em; font-weight: bold; margin: 0;">
+            <p style="font-weight: bold; margin-bottom: 10px;">
                 Parece que esto se está actualizando o no existe (todavía). ¡Toca esperar! :D
             </p>
-            <p style="margin-top: 10px;" class="url-display">
-                La URL <script>document.write(document.location.pathname)</script> no está disponible.
+            <p>
+                La URL <span class="url-display"><script>document.write(document.location.pathname)</script></span> no está disponible.
             </p>
         </div>
 
