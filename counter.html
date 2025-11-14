@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contador de visitas</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      padding: 50px;
+      background-color: #f0f8ff;
+    }
+    .contador {
+      font-size: 50px;
+      font-weight: bold;
+      color: #4CAF50;
+    }
+    h1 {
+      color: #333;
+    }
+    p {
+      font-size: 20px;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Bienvenido a la página</h1>
+  <p>Visitas actuales:</p>
+  <div class="contador" id="contador">Cargando...</div>
+
+  <script>
+    // Función para incrementar el contador y actualizar en localStorage
+    function incrementarContador() {
+      // Intentamos obtener el contador desde localStorage
+      let visitas = localStorage.getItem('contadorVisitas');
+      
+      // Si no existe, lo inicializamos en 0
+      if (!visitas) {
+        visitas = 0;
+      }
+
+      // Incrementamos el contador
+      visitas++;
+
+      // Actualizamos el contador en localStorage
+      localStorage.setItem('contadorVisitas', visitas);
+
+      // Actualizamos la página con el nuevo contador
+      document.getElementById('contador').textContent = visitas;
+    }
+
+    // Ejecutamos la función de incrementar contador al cargar la página
+    window.onload = incrementarContador;
+  </script>
+
+</body>
+</html>
